@@ -26,6 +26,7 @@ public class AmenityEntity {
     public static final String COLUMN_LOCATION = "location";
     public static final String COLUMN_HOURS_AVAIL = "hours_avail";
     public static final String COLUMN_STATUS = "status";
+    
 
     @PrimaryKey
     @Column(COLUMN_AMENITY_ID)
