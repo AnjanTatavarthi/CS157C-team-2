@@ -22,11 +22,10 @@ public class AmenityEntity {
     public static final String COLUMN_AMENITY_ID = "amenity_id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DESCRIPTION = "description";
-    public static final String COLUMN_IMAGE = "image";
+    public static final String COLUMN_IMAGE_URL = "image_url";
     public static final String COLUMN_LOCATION = "location";
-    public static final String COLUMN_HOURS_AVAIL = "hours_avail";
+    public static final String COLUMN_OPEN_HOURS = "open_hours";
     public static final String COLUMN_STATUS = "status";
-    
 
     @PrimaryKey
     @Column(COLUMN_AMENITY_ID)
@@ -45,12 +44,11 @@ public class AmenityEntity {
     @CassandraType(type = Name.TEXT)
     private String location;
 
-    @Column(COLUMN_HOURS_AVAIL)
+    @Column(COLUMN_OPEN_HOURS)
     @CassandraType(type = Name.TEXT)
-    private String hoursAvail;
+    private String openHours;
 
     @Column(COLUMN_STATUS)
-    @CassandraType(type = Name.TEXT)
-    private String status;
-
+    @CassandraType(type = Name.BOOLEAN)
+    private Boolean status;
 }

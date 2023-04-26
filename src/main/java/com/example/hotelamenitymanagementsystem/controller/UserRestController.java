@@ -1,7 +1,7 @@
 package com.example.hotelamenitymanagementsystem.controller;
 
 
-import static com.example.hotelamenitymanagementsystem.controller.UserUtils.mapAsUserEntity;
+import static com.example.hotelamenitymanagementsystem.utils.UserUtils.mapAsUserEntity;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.OPTIONS;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.example.hotelamenitymanagementsystem.Dao.UserRepositoryCassandra;
 import com.example.hotelamenitymanagementsystem.Entity.UserEntity;
 import com.example.hotelamenitymanagementsystem.object.User;
+import com.example.hotelamenitymanagementsystem.utils.UserUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

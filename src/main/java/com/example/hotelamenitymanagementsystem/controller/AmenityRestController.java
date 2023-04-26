@@ -1,6 +1,6 @@
 package com.example.hotelamenitymanagementsystem.controller;
 
-import static com.example.hotelamenitymanagementsystem.controller.AmenityUtils.mapAsAmenityEntity;
+import static com.example.hotelamenitymanagementsystem.utils.AmenityUtils.mapAsAmenityEntity;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.OPTIONS;
@@ -10,14 +10,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.net.URISyntaxException;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
-//import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.hotelamenitymanagementsystem.Dao.AmenityRepositoryCassandra;
 import com.example.hotelamenitymanagementsystem.Entity.AmenityEntity;
 import com.example.hotelamenitymanagementsystem.object.Amenity;
+import com.example.hotelamenitymanagementsystem.utils.AmenityUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,7 +54,7 @@ public class AmenityRestController {
 
     @GetMapping("/{amenity_id}")
     public ResponseEntity<Amenity> findById(HttpServletRequest req, @PathVariable(value = "amenity_id") String amenity_id) {
-        Optional<AmenityEntity> e = repo.findById(amenity_id);
+        Optional<AmenityEntity> e = repo.findById(UUID.fromString(amenity_id));
         if (e.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -65,7 +66,7 @@ public class AmenityRestController {
             throws URISyntaxException {
         AmenityEntity amenityEntity = mapAsAmenityEntity(amenity);
         repo.save(amenityEntity);
-        return ResponseEntity.ok(amenity);
+        return ResponseEntity.ok(AmenityUtils.mapAsAmenity(amenityEntity));
     }
 
     @DeleteMapping
