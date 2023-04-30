@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { useState } from "react";
 import { useFormik, Form, FormikProvider } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Stack,
   Box,
@@ -12,6 +12,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
+import backend from "../utils/config";
 
 /////////////////////////////////////////////////////////////
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -27,6 +28,8 @@ const animate = {
 
 const SignupForm = ({ setAuth }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,7 +47,7 @@ const SignupForm = ({ setAuth }) => {
       .email("Email must be a valid email address")
       .required("Email is required"),
     password: Yup.string().required("Password is required"),
-
+    address: Yup.string(),
   });
 
   const formik = useFormik({
@@ -54,14 +57,40 @@ const SignupForm = ({ setAuth }) => {
       email: "",
       password: "",
       role: "",
-      date_of_birth:""
+      dateOfBirth:""
     },
     validationSchema: SignupSchema,
-    onSubmit: () => {
-      setTimeout(() => {
-        setAuth(true);
-        navigate("/", { replace: true });
-      }, 2000);
+    onSubmit: (form_values) => {
+      console.log("submitting...");
+      console.log({
+        email: form_values.email,
+        password: form_values.password,
+        firstName: form_values.firstName,
+        lastName: form_values.lastName,
+        role: "customer",
+        dateOfBirth: form_values.dateOfBirth
+
+      });
+      backend.post('api/v1/register', {
+        email: form_values.email,
+        password: form_values.password,
+        firstName: form_values.firstName,
+        lastName: form_values.lastName,
+        role: "customer",
+        dateOfBirth: form_values.dateOfBirth
+
+      }).then((response) => {
+        var responseData = response.data;
+        console.log(responseData);
+        if(!responseData.success){
+          // window.location.reload()
+          alert("User already exists. Please login");
+        }
+        else{
+          setAuth(true);
+          navigate(from, { replace: true });
+        }
+      }).catch(() => {});
     },
   });
 
@@ -109,6 +138,16 @@ const SignupForm = ({ setAuth }) => {
               {...getFieldProps("email")}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
+            />
+
+            <TextField
+              fullWidth
+              autoComplete="bday"
+              type="date"
+              label="Date of Birth"
+              {...getFieldProps("dateOfBirth")}
+              error={Boolean(touched.dateOfBirth && errors.dateOfBirth)}
+              helperText={touched.dateOfBirth && errors.dateOfBirth}
             />
 
             <TextField
