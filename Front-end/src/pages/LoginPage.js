@@ -1,90 +1,108 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import { Container, TextField, Button, Typography } from "@mui/material";
+import { Container, TextField, Button, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { Link as RouterLink } from "react-router-dom";
+import { Box } from "@mui/material";
 
-import backend from "../utils/config";
+function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
-  password: Yup.string().required("Password is required"),
-});
+  const [role, setRole] = useState("customer");
 
-const LoginPage = ({ setAuth }) => {
+  const handleChangeRole = (newRole) => {
+    setRole(newRole);
+};
+
   const navigate = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: LoginSchema,
-    onSubmit: (form_values) => {
-      console.log("submitting...");
-      console.log({
-        email: form_values.email,
-        password: form_values.password
-      });
-      backend.post('api/v1/login', {
-        email: form_values.email,
-        password: form_values.password
-      }).then((response) => {
-        var responseData = response.data;
-        console.log(responseData);
-        if (!responseData.success) {
-          formik.resetForm();
-          toast.error("User does not exists. Please try again");
-        }
-        else {
-          console.log("IN ELSE");
-          setAuth(true);
-          console.log("/"+responseData.role);
-          navigate("/"+responseData.role);//, { replace: true });
-        }
-      }).catch(() => { });
-    },
-  });
+  // Check for user session data
+  useEffect(() => {
+    const userSession = localStorage.getItem("userSession");
+    if (userSession) {
+      const parsedUserSession = JSON.parse(userSession);
+      setUsername(parsedUserSession.username);
+      setPassword(parsedUserSession.password);
+    }
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to authenticate user and redirect based on role
+    const userSessionData = {
+      username,
+      password,
+      role,
+    };
+    localStorage.setItem("userSession", JSON.stringify(userSessionData));
+    if (role === "customer") {
+      navigate("/guest");
+    } else if (role === "staff") {
+      navigate("/staff");
+    }
+  };
 
   return (
     <>
-      <Navbar />
-      <Container maxWidth="xs">
-        <Typography variant="h4" align="center" gutterBottom>
+    <Navbar />
+    <Container maxWidth="xs">
+      <Typography variant="h4" align="center" gutterBottom>
+        Login
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button fullWidth variant="contained" type="submit">
           Login
-        </Typography>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Password"
-            type="password"
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <Button fullWidth variant="contained" type="submit">
-            Login
+        </Button>
+      </form>
+
+
+      <Typography variant="body1" align="center" gutterBottom>
+      Don't have an account?{" "}
+      <Link component={RouterLink} to="/signup">
+        Sign Up
+      </Link>
+    </Typography>
+    
+    <Box display="flex" justifyContent="center" marginTop="1rem">
+          <Button
+            variant={role === "customer" ? "contained" : "outlined"}
+            color="primary"
+            onClick={() => handleChangeRole("customer")}
+          >
+            Customer
           </Button>
-        </form>
-      </Container>
-      <ToastContainer />
+          <Button
+            variant={role === "staff" ? "contained" : "outlined"}
+            color="primary"
+            onClick={() => handleChangeRole("staff")}
+            style={{ marginLeft: "1rem" }}
+          >
+            Hotel Staff
+          </Button>
+        </Box>
+
+
+    </Container>
     </>
+    
   );
 }
+
 
 export default LoginPage;

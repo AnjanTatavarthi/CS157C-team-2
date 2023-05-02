@@ -4,7 +4,6 @@ import com.example.hotelamenitymanagementsystem.Dao.UserRepositoryCassandra;
 import com.example.hotelamenitymanagementsystem.Entity.UserEntity;
 import com.example.hotelamenitymanagementsystem.object.LoginRequest;
 import com.example.hotelamenitymanagementsystem.object.LoginResponse;
-import com.example.hotelamenitymanagementsystem.object.RegistrationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +38,13 @@ public class LoginController {
 
         Optional<UserEntity> user = repo.findById(loginRequest.getEmail());
 
+        LoginResponse loginResponse = LoginResponse.builder()
+                .success(false)
+                .build();
+
         if (user.isPresent() && Objects.equals(user.get().getPassword(), loginRequest.getPassword())) {
             UserEntity userEntity = user.get();
-            LoginResponse loginResponse = LoginResponse.builder()
-                    .success(true)
+            loginResponse = LoginResponse.builder()
                     .firstName(userEntity.getFirstName())
                     .lastName(userEntity.getLastName())
                     .email(userEntity.getEmail())
@@ -50,16 +52,9 @@ public class LoginController {
                     .role(userEntity.getRole())
                     .success(true)
                     .build();
-            return ResponseEntity.ok(loginResponse);
-        }
-        else{
-            LoginResponse loginResponse = LoginResponse.builder()
-                    .success(false)
-                    .build();
-            return ResponseEntity.ok(loginResponse);
         }
 
-
+        return ResponseEntity.ok(loginResponse);
     }
 }
 
