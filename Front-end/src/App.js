@@ -1,27 +1,33 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import Navbar from "./pages/Navbar";
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import GuestDashboard from "./pages/GuestDashboard";
-import StaffDashboard from "./pages/StaffDashboard";
-import ManagementDashboard from "./pages/ManagementDashboard";
-import SignupPage from "./pages/SignupPage";
-import HomePage from "./pages/HomePage";
+import { useState } from "react";
+import { CssBaseline } from "@mui/material";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
+  const [auth, setAuth] = useState(false);
+  const location = useLocation();
+
   return (
-    <Router>
+    <>
+      <CssBaseline />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/guest" element={<GuestDashboard />} />
-        <Route path="/staff" element={<StaffDashboard />} />
-        <Route path="/management" element={<ManagementDashboard />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
+        <Route path="/signup" element={<Signup setAuth={setAuth} />} />
+
+        <Route
+          path="/"
+          element={
+            auth ? (
+              <Home setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" state={{ from: location }} replace />
+            )
+          }
+        />
       </Routes>
-    </Router>
+    </>
   );
 }
 
