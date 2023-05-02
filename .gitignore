@@ -1,2 +1,6 @@
 /.idea
 /Front-end/node_modules
+/Back-end/.idea
+/Back-end/target
+/Front-end/.idea
+/package-lock.json

@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
         allowedHeaders = {"x-requested-with", "origin", "content-type", "accept"},
         origins = "*"
 )
-@RequestMapping("/api/v1/amenities/")
+@RequestMapping("/api/v1/amenities")
 public class AmenityRestController {
 
     private AmenityRepositoryCassandra repo;

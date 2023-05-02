@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Table(value = UserEntity.TABLE_NAME)
 public class UserEntity {
 
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "users";
     public static final String COLUMN_FIRST_NAME = "first_name";
     public static final String COLUMN_MIDDLE_NAME = "middle_name";
     public static final String COLUMN_LAST_NAME = "last_name";

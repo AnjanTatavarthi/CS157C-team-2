@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Data
@@ -15,7 +16,8 @@ import java.time.LocalDate;
 public class AmenityBooking {
     private String bookingId;
     private String userEmail;
-    private LocalDate bookingDateTime;
+    private LocalDate bookingDate;
+    private LocalTime bookingTime;
     private String amenityId;
 }
 

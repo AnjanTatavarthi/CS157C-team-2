@@ -12,6 +12,7 @@ public class UserUtils {
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(user.getPassword());
         userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setRole(user.getRole());
         return userEntity;
     }
 
@@ -22,6 +23,7 @@ public class UserUtils {
         user.setPassword(userEntity.getPassword());
         user.setEmail(userEntity.getEmail());
         user.setDateOfBirth(userEntity.getDateOfBirth());
+        user.setRole(userEntity.getRole());
         return user;
     }
 
