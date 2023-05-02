@@ -22,7 +22,7 @@ public class UserEntity {
     public static final String COLUMN_LAST_NAME = "last_name";
     public static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_EMAIL = "email";
-    public static final String COLUMN_DATE_OF_BIRTH = "date_of_birth";
+    public static final String COLUMN_DATE_OF_BIRTH = "data_of_birth";
     public static final String COLUMN_ROLE = "role";
     public static final String ADDRESS = "address";
 
@@ -50,4 +50,5 @@ public class UserEntity {
     @Column(COLUMN_ROLE)
     @CassandraType(type = Name.TEXT)
     private String role;
+
 }

@@ -12,7 +12,6 @@ public class UserUtils {
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(user.getPassword());
         userEntity.setDateOfBirth(user.getDateOfBirth());
-        userEntity.setRole(user.getRole());
         return userEntity;
     }
 
