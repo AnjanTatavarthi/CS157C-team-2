@@ -12,6 +12,8 @@ import MuiAppBar from "@mui/material/AppBar";
 import {Menu, MenuItem} from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {ExitToApp} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
+import login from "../pages/Login";
 
 
 const drawerWidth = 240;
@@ -41,11 +43,15 @@ interface NavbarProps {
 }
 
 export default function Navbar(props: NavbarProps) {
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const login = "/login";
 
     const handleSignOut = () => {
-        // add your signout logic here
+        console.log("Handling Signout");
+        localStorage.clear();
+        navigate(login, {replace: true});
     }
 
     const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {

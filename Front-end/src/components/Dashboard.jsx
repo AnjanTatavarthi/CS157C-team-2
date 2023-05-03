@@ -6,9 +6,8 @@ import CustomPaginationActionsTable from "./Table";
 import Navbar from "./NavBar";
 import MenuBar from "./MenuBar";
 import AdminDashboard from './AdminDashboard';
+import ComponentDisplayBox from "./ComponentDisplayBox";
 
-
-const drawerWidth = 240;
 
 
 const mdTheme = createTheme();
@@ -16,8 +15,10 @@ const mdTheme = createTheme();
 
 function Dashboard() {
     const [open, setOpen] = React.useState(true);
+    const [displayComponent, setDisplayComponent]  = React.useState();
     const [role, setRole] = React.useState(localStorage.getItem("role"));
 
+    const loggedInUserInfo = localStorage.getItem("user");
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -26,7 +27,7 @@ function Dashboard() {
         var myrole = JSON.parse(localStorage.getItem("user")).role;
         console.log("RENDERING")
         console.log(myrole);
-        
+
         switch (myrole) {
             case 'admin':
                 return <AdminDashboard />;
@@ -41,15 +42,12 @@ function Dashboard() {
 
     return (
         <ThemeProvider theme={mdTheme}>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <Box sx={{ display: 'flex'}}>
-                    <Navbar open={open} toggleDrawer={toggleDrawer} sx={{ flexGrow: 1 }} />
-                    <MenuBar open={open} toggleDrawer={toggleDrawer} sx={{ minWidth: '200px' }} />
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' , marginTop: '5%'}}>
-                    {renderComponent()}
-                </Box>
+            <Box sx={{display: 'flex'}}>
+                <CssBaseline/>
+                <Navbar open={open} toggleDrawer={toggleDrawer}/>
+                <MenuBar open={open} toggleDrawer={toggleDrawer}/>
+                <ComponentDisplayBox/>
+
             </Box>
         </ThemeProvider>
     );

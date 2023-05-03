@@ -79,9 +79,6 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-    return {name, calories, fat};
-}
 
 
 export default function CustomPaginationActionsTable() {
@@ -101,7 +98,18 @@ export default function CustomPaginationActionsTable() {
         setPage(0);
     };
 
-    const [bookings, setBookings] = useState([]);
+    const [bookings, setBookings] = useState([
+        { bookingId: 1, userEmail: 'user1@example.com' },
+        { bookingId: 2, userEmail: 'user2@example.com' },
+        { bookingId: 3, userEmail: 'user3@example.com' },
+        { bookingId: 4, userEmail: 'user4@example.com' },
+        { bookingId: 5, userEmail: 'user5@example.com' },
+        { bookingId: 6, userEmail: 'user6@example.com' },
+        { bookingId: 7, userEmail: 'user7@example.com' },
+        { bookingId: 8, userEmail: 'user8@example.com' },
+        { bookingId: 9, userEmail: 'user9@example.com' },
+        { bookingId: 10, userEmail: 'user10@example.com' },
+    ]);
 
     useEffect(() => {
         // Make API request to retrieve user data

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {
     Container,
     Grid,
@@ -6,6 +6,7 @@ import {
     Button,
     makeStyles,
 } from '@material-ui/core';
+import backend from "../utils/config";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -42,10 +43,30 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SlotTimingsLayout() {
+
+interface TimingSlotsProps {
+    amenityId: string;
+    booking_date: Date;
+}
+
+
+function SlotTimingsLayout(props: TimingSlotsProps) {
     const classes = useStyles();
     const [selectedSlots, setSelectedSlots] = useState([]);
-    const disabledSlots = ['09:00', '10:00', '11:00'];
+    const [disabledSlots, setDisabledSlots] = useState([]);
+
+    useEffect(() => {
+        // Make API request to retrieve user data
+        backend.get(`/amenityBookings/${props.amenityId}/${props.booking_date}`)
+            .then(response => {
+                // Update state with user data
+                setDisabledSlots(response.data);
+                console.log("Slots:", response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
 
     const handleSlotClick = (slot) => {
         const index = selectedSlots.indexOf(slot);
@@ -59,12 +80,20 @@ function SlotTimingsLayout() {
             setSelectedSlots(newSelectedSlots);
         }
     };
-
+    const startTime = '00:00'; // change this to your desired start time
+    const endTime = '24:00'; // change this to your desired end time
     const renderSlots = () => {
         const slots = [];
-        for (let i = 0; i < 24; i++) {
-            const hour = i < 10 ? `0${i}` : i;
-            for (let j = 0; j < 2; j++) {
+
+        const [startHour, startMinute] = startTime.split(':').map(Number);
+        const [endHour, endMinute] = endTime.split(':').map(Number);
+
+        for (let i = startHour; i <= endHour; i++) {
+            for (let j = 0; j < 60; j += 30) {
+                if (i === startHour && j < startMinute) continue;
+                if (i === endHour && j > endMinute) break;
+
+                const hour = i < 10 ? `0${i}` : i;
                 const minute = j === 0 ? '00' : '30';
                 const slot = `${hour}:${minute}`;
                 const isSelected = selectedSlots.includes(slot);
@@ -73,9 +102,7 @@ function SlotTimingsLayout() {
                     <Grid item xs={0.5} key={slot}>
                         <Button
                             onClick={() => handleSlotClick(slot)}
-                            className={`${classes.slot} ${
-                                isSelected ? classes.slotSelected : ''
-                            } ${isDisabled ? classes.slotDisabled : ''}`}
+                            className={`${classes.slot} ${isSelected ? classes.slotSelected : ''} ${isDisabled ? classes.slotDisabled : ''}`}
                             disabled={isDisabled}
                         >
                             <Typography variant="body2" color="textSecondary">
@@ -88,6 +115,7 @@ function SlotTimingsLayout() {
         }
         return slots;
     };
+
 
     return (
         <Container className={classes.container}>

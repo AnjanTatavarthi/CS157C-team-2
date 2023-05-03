@@ -21,14 +21,7 @@ import com.example.hotelamenitymanagementsystem.object.User;
 import com.example.hotelamenitymanagementsystem.utils.UserUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(
@@ -67,6 +60,19 @@ public class UserRestController {
         UserEntity userEntity = mapAsUserEntity(user);
         repo.save(userEntity);
         return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{user_email}")
+    public ResponseEntity<User> update(HttpServletRequest req, @PathVariable(value = "user_email") String user_name, @RequestBody User updatedUser) {
+        Optional<UserEntity> existingEntity = repo.findById(user_name);
+        if (existingEntity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        UserEntity existingUserEntity = existingEntity.get();
+        UserEntity updatedUserEntity = UserUtils.mapAsUserEntity(updatedUser);
+        updatedUserEntity.setEmail(existingUserEntity.getEmail()); // Make sure the ID stays the same
+        repo.save(updatedUserEntity);
+        return ResponseEntity.ok(UserUtils.mapAsUser(updatedUserEntity));
     }
 
     @DeleteMapping
