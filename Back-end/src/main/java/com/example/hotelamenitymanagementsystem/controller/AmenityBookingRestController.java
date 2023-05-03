@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,18 +58,26 @@ public class AmenityBookingRestController {
         return ResponseEntity.ok(AmenityBookingUtils.mapAsAmenityBooking(e.get()));
     }
 
+//    @GetMapping("/{amenity_booking_id}/{booking_date}")
+//    public Stream<AmenityBooking> findByIdAndDate(HttpServletRequest req,
+//                                                  @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
+//                                                  @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
+//        return amenityBookings.stream().map(AmenityBookingUtils::mapAsAmenityBooking);
+//    }
+
     @GetMapping("/{amenity_booking_id}/{booking_date}")
-    public Stream<AmenityBooking> findByIdAndDate(HttpServletRequest req,
-                                                  @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
-                                                  @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public ResponseEntity<Stream<String>> getFilledTimeSlots(HttpServletRequest req,
+                                                             @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
+                                                             @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
-        return amenityBookings.stream().map(AmenityBookingUtils::mapAsAmenityBooking);
+        return ResponseEntity.ok(amenityBookings.stream().map(booking -> booking.getBookingTime().format(DateTimeFormatter.ofPattern("HH:mm"))));
     }
+
 
     @PostMapping
     public ResponseEntity<AmenityBooking> create(HttpServletRequest req, @RequestBody AmenityBooking amenityBooking)
             throws URISyntaxException {
-
 
         AmenityBookingEntityById amenityBookingEntity = AmenityBookingUtils.mapAsAmenityBookingEntityId(amenityBooking);
         amenityBooking.setBookingId(amenityBookingEntity.getBookingId().toString());
