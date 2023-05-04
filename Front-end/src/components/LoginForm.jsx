@@ -3,6 +3,10 @@ import {Link as RouterLink, useLocation, useNavigate} from "react-router-dom";
 import {Form, FormikProvider, useFormik} from "formik";
 import * as Yup from "yup";
 
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import {
     Box,
     Checkbox,
@@ -56,9 +60,29 @@ const LoginForm = ({setAuth}) => {
                 email: form_values.email,
                 password: form_values.password
             }).then((response) => {
-                setAuth(true);
-                navigate(dashboard, {replace: true});
-                localStorage.setItem("user", JSON.stringify(response.data))
+                var responseData = response.data;
+        console.log(responseData);
+        if (!responseData.success) {
+          formik.resetForm();
+          toast.error('User not found!', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+        }
+        else {
+          console.log("IN ELSE");
+          setAuth(true);
+        //   console.log("/"+responseData.role);
+          localStorage.setItem("user", JSON.stringify(response.data))
+        //   navigate("/"+responseData.role);//, { replace: true });
+        navigate(dashboard, {replace: true});
+        }
+                
             }).catch(() => {
             });
         },
@@ -68,6 +92,8 @@ const LoginForm = ({setAuth}) => {
         formik;
 
     return (
+        <>
+        <ToastContainer />
         <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                 <Box
@@ -168,6 +194,8 @@ const LoginForm = ({setAuth}) => {
                 </Box>
             </Form>
         </FormikProvider>
+        </>
+        
     );
 };
 

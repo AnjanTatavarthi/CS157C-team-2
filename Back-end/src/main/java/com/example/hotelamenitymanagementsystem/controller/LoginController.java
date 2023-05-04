@@ -39,6 +39,7 @@ public class LoginController {
             throws URISyntaxException {
 
         Optional<UserEntity> user = repo.findById(loginRequest.getEmail());
+        System.out.println("Printing: "+user);
 
         LoginResponse loginResponse = LoginResponse.builder()
                 .success(false)
@@ -46,6 +47,7 @@ public class LoginController {
 
         if (user.isPresent() && Objects.equals(user.get().getPassword(), loginRequest.getPassword())) {
             UserEntity userEntity = user.get();
+            System.out.println("Printing: "+userEntity.getFirstName());
             loginResponse = LoginResponse.builder()
                     .firstName(userEntity.getFirstName())
                     .lastName(userEntity.getLastName())
