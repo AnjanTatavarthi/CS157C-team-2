@@ -14,6 +14,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import {ExitToApp} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import login from "../pages/Login";
+import {useContext} from "react";
+import {ComponentContext} from "./Dashboard";
 
 
 const drawerWidth = 240;
@@ -45,7 +47,10 @@ interface NavbarProps {
 export default function Navbar(props: NavbarProps) {
     const navigate = useNavigate();
 
+
+    const [displayComponent, setDisplayComponent] = useContext(ComponentContext);
     const [anchorEl, setAnchorEl] = React.useState(null);
+
     const login = "/login";
 
     const handleSignOut = () => {
@@ -60,6 +65,7 @@ export default function Navbar(props: NavbarProps) {
 
     const handleProfileClose = () => {
         setAnchorEl(null);
+        setDisplayComponent("Profile");
     };
 
     return (<AppBar position="absolute" open={props.open}>
@@ -121,6 +127,7 @@ export default function Navbar(props: NavbarProps) {
                         </ListItemIcon>
                         <Typography variant="inherit">Profile</Typography>
                     </MenuItem>
+
                     <MenuItem onClick={handleSignOut}>
                         <ListItemIcon>
                             <ExitToApp/>

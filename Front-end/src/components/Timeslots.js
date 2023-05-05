@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 interface TimingSlotsProps {
     amenityId: string;
     booking_date: Date;
+    onSlotChange: (selectedSlots: string[]) => void;
 }
 
 
@@ -72,12 +73,15 @@ function SlotTimingsLayout(props: TimingSlotsProps) {
         const index = selectedSlots.indexOf(slot);
         if (index === -1) {
             if (selectedSlots.length < 2) {
-                setSelectedSlots([...selectedSlots, slot]);
+                const newSelectedSlots = [...selectedSlots, slot];
+                setSelectedSlots(newSelectedSlots);
+                props.onSlotChange(newSelectedSlots);
             }
         } else {
             const newSelectedSlots = [...selectedSlots];
             newSelectedSlots.splice(index, 1);
             setSelectedSlots(newSelectedSlots);
+            props.onSlotChange(newSelectedSlots);
         }
     };
     const startTime = '00:00'; // change this to your desired start time

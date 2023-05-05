@@ -7,15 +7,16 @@ import Navbar from "./NavBar";
 import MenuBar from "./MenuBar";
 import AdminDashboard from './AdminDashboard';
 import ComponentDisplayBox from "./ComponentDisplayBox";
-
+import {createContext} from "react";
 
 
 const mdTheme = createTheme();
 
+export const ComponentContext = createContext();
 
 function Dashboard() {
     const [open, setOpen] = React.useState(true);
-    const [displayComponent, setDisplayComponent]  = React.useState();
+    const [displayComponent, setDisplayComponent] = React.useState("carousal");
     const [role, setRole] = React.useState(localStorage.getItem("role"));
 
     const loggedInUserInfo = localStorage.getItem("user");
@@ -41,15 +42,18 @@ function Dashboard() {
     };
 
     return (
-        <ThemeProvider theme={mdTheme}>
-            <Box sx={{display: 'flex'}}>
-                <CssBaseline/>
-                <Navbar open={open} toggleDrawer={toggleDrawer}/>
-                <MenuBar open={open} toggleDrawer={toggleDrawer}/>
-                <ComponentDisplayBox/>
+        <ComponentContext.Provider value={[displayComponent, setDisplayComponent]}>
+            <ThemeProvider theme={mdTheme}>
+                <Box sx={{display: 'flex'}}>
+                    <CssBaseline/>
+                    <Navbar open={open} toggleDrawer={toggleDrawer}/>
+                    <MenuBar open={open} toggleDrawer={toggleDrawer}/>
+                    <ComponentDisplayBox/>
 
-            </Box>
-        </ThemeProvider>
+                </Box>
+            </ThemeProvider>
+        </ComponentContext.Provider>
+
     );
 }
 

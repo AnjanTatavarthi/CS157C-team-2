@@ -266,7 +266,7 @@ function ProfilePage({user}) {
                                     </Button>
 
 
-                                    <Button variant="contained" color="primary"  onClick={handleSave}
+                                    <Button variant="contained" color="primary" onClick={handleSave}
                                             className={classes.editButton}>
                                         Save
                                     </Button>

@@ -2,11 +2,11 @@
   {
     "id": 1,
     "image": "/static/slideshow_images/jacuzzi.webp",
-    "title": "nthing"
+    "title": "Jacuzzi"
   },
   {
     "id": 2,
-    "image": "/static/slideshow_images/jacuzzi.webp",
-    "title": "item2"
+    "image": "/static/slideshow_images/pool.jpeg",
+    "title": "Swimming Pool"
   }
 ]

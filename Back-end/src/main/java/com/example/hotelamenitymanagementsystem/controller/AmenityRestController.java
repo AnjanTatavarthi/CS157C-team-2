@@ -9,13 +9,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.hotelamenitymanagementsystem.Dao.AmenityRepositoryCassandra;
+import com.example.hotelamenitymanagementsystem.Entity.AmenityBookingEntity;
 import com.example.hotelamenitymanagementsystem.Entity.AmenityEntity;
 import com.example.hotelamenitymanagementsystem.object.Amenity;
 import com.example.hotelamenitymanagementsystem.utils.AmenityUtils;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
         allowedHeaders = {"x-requested-with", "origin", "content-type", "accept"},
         origins = "*"
 )
+
 @RequestMapping("/api/v1/amenities")
 public class AmenityRestController {
 

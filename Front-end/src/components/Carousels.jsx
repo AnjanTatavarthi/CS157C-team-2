@@ -4,8 +4,9 @@ import slider from "./slider.json"
 import Carousel from 'react-material-ui-carousel'
 
 function Carousals() {
+
     return (
-        <Carousel>
+        <Carousel >
             {
                 slider.map( item=> <Item key={item.id} item={item} /> )
             }

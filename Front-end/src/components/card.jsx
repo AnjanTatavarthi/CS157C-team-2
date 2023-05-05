@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Button} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
+import {useContext} from "react";
+import {ComponentContext} from "./Dashboard";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -39,8 +41,12 @@ interface AmenityCardProps {
 
 export default function AmenityCard(props: AmenityCardProps) {
 
+
+    // const [displayComponent, setDisplayComponent] = useContext(ComponentContext);
+
     console.log(props.props);
     const [expanded, setExpanded] = React.useState(false);
+
     console.log("Name Props" + props.name);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -79,7 +85,7 @@ export default function AmenityCard(props: AmenityCardProps) {
 
 
             <CardActions disableSpacing sx={{justifyContent: 'center'}}>
-                <Button variant="contained" color="primary" endIcon={<SendIcon/>}>
+                <Button variant="contained" color="primary" endIcon={<SendIcon/>} >
                     Create Booking
                 </Button>
             </CardActions>

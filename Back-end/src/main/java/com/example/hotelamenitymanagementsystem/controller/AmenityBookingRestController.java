@@ -48,6 +48,7 @@ public class AmenityBookingRestController {
                 .map(AmenityBookingUtils::mapAsAmenityBooking);
     }
 
+
     @GetMapping("/{amenity_booking_id}")
     public ResponseEntity<AmenityBooking> findById(HttpServletRequest req,
                                                    @PathVariable(value = "amenity_booking_id") UUID amenity_booking_id) {
