@@ -10,6 +10,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -21,7 +22,20 @@ import com.example.hotelamenitymanagementsystem.object.User;
 import com.example.hotelamenitymanagementsystem.utils.UserUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< Updated upstream
 import org.springframework.web.bind.annotation.*;
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.stream.Collectors;
+
+>>>>>>> Stashed changes
 
 @RestController
 @CrossOrigin(
@@ -53,6 +67,23 @@ public class UserRestController {
         }
         return ResponseEntity.ok(UserUtils.mapAsUser(e.get()));
     }
+
+
+    @GetMapping("/staff")
+    public Stream<User> findAllStaff(HttpServletRequest req) {
+        return repo.findAll().stream()
+            .map(userEntity -> {
+                String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
+                String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
+                String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
+                String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
+                LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
+                String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
+                return new User(firstName, lastName, dateOfBirth, password, email,  role);
+            })
+                .filter(userEntity -> userEntity.getRole().equals("staff"));
+    }
+
 
     @PostMapping
     public ResponseEntity<User> create(HttpServletRequest req, @RequestBody User user)
