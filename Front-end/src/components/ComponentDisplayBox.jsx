@@ -52,39 +52,32 @@ export default function ComponentDisplayBox() {
             {/*    "role": "user"*/}
             {/*}}/>*/}
 
-            {/*<CustomPaginationActionsTable/>*/}
-            {/*<Timeslots amenityId={'123344'} booking_date={'2023-05-02'}/>*/}
-            {/*<AmenityBookingForm amenityId={'123344'}/>*/}
+            {/* <CustomPaginationActionsTable/> */}
+            {/* <Timeslots amenityId={'123344'} booking_date={'2023-05-02'}/> */}
+            {/* <AmenityBookingForm amenityId={'123344'}/> */}
 
-            {/*<BookingConfirmationCard*/}
-            {/*    bookingId="12345"*/}
-            {/*    bookingStatus="Confirmed"*/}
-            {/*    hotelName="Grand Hotel"*/}
-            {/*    checkInDate="2022-06-01"*/}
-            {/*    checkOutDate="2022-06-05"*/}
-            {/*    totalPrice="$1000"*/}
-            {/*    guests="2 adults, 1 child"*/}
-            {/*/>*/}
 
-            {/*<div>*/}
-            {/*    <BookingConfirmationCard bookingDetails={bookingDetails} />*/}
-            {/*</div>*/}
+            <div>
+               <BookingConfirmationCard bookingDetails={bookingDetails} />
+            </div>
             {/*<Carousals/>*/}
 
 
             <div>
                 {(() => {
+                    var userData = JSON.parse(localStorage.getItem("user"));
+                    console.log(userData);
                     switch (displayComponent) {
                         case "Carousal":
                             return <Carousals/>;
                         case "Profile":
                             return <ProfilePage user={{
-                                "firstName": "Sasanka",
-                                "lastName": "Kosuru",
-                                "dateOfBirth": "2022-03-12",
-                                "password": "Sasanka@1234",
-                                "email": "sasanka@gmail.com",
-                                "role": "user"
+                                "firstName": userData.firstName,
+                                "lastName": userData.lastName,
+                                "dateOfBirth": userData.dateOfBirth,
+                                "password": userData.password,
+                                "email": userData.email,
+                                "role": userData.role
                             }}/>;
                         case "Amenities":
                             return <DisplayAmenities/>;
