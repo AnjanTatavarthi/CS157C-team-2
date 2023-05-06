@@ -44,6 +44,7 @@ public class RegistrationController {
                     .build();
             return ResponseEntity.ok(registrationResponse);
         } else {
+            System.out.println("Registering user: "+user);
             UserEntity newUserEntity = mapAsUserEntity(user);
             repo.save(newUserEntity);
             RegistrationResponse registrationResponse = RegistrationResponse.builder()

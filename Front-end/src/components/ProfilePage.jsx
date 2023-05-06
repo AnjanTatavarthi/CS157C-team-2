@@ -92,7 +92,7 @@ function ProfilePage({user}) {
                 "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character."
             )
             .required("Password is required."),
-        date_of_birth: Yup.date()
+        dateOfBirth: Yup.date()
             .max(new Date(), "Date of birth cannot be in the future.")
             .required("Date of birth is required.")
     });
@@ -105,7 +105,7 @@ function ProfilePage({user}) {
             lastName: user.lastName,
             email: user.email,
             password: user.password,
-            date_of_birth: user.dateOfBirth
+            dateOfBirth: user.dateOfBirth
         },
         validationSchema: SignupSchema,
         onSubmit: (form_values) => {
@@ -117,7 +117,7 @@ function ProfilePage({user}) {
                 firstName: form_values.firstName,
                 lastName: form_values.lastName,
                 role: form_values.role,
-                date_of_birth: form_values.date_of_birth
+                dateOfBirth: form_values.dateOfBirth
             }).then((response) => {
                 console.log("Response: ", response)
                 navigate(login, {replace: true});
@@ -196,13 +196,13 @@ function ProfilePage({user}) {
                                         {...getFieldProps("email")}
                                         error={Boolean(touched.email && errors.email)}
                                         helperText={touched.email && errors.email}
-                                        disabled={!editMode}
+                                        disabled
                                     />
 
 
                                 </Grid>
 
-                                <Grid item xs={12}>
+                                {/* <Grid item xs={12}>
                                     <Typography variant="subtitle1" className={classes.fieldLabel}>
                                         Password:
                                     </Typography>
@@ -234,7 +234,7 @@ function ProfilePage({user}) {
                                         disabled={!editMode}
                                     />
 
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <Typography variant="subtitle1" className={classes.fieldLabel}>
                                         Date of Birth:
@@ -247,7 +247,7 @@ function ProfilePage({user}) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        {...getFieldProps("date_of_birth")}
+                                        {...getFieldProps("dateOfBirth")}
                                         error={Boolean(touched.date && errors.date)}
                                         helperText={touched.date && errors.date}
                                         disabled={!editMode}
