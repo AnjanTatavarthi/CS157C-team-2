@@ -11,6 +11,7 @@ import BookingTable from "./components/BookingTable";
 import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
 import AmenityBookingForm from "./components/AmenityBookingForm";
+import ServiceRequestTable from "./components/PeopleTable/ServiceRequestTable";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/admin" element={<Admin component={<Carousals/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/>
+                <Route path="/admin/servicerequests" element={<Admin component={<ServiceRequestTable/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/amenities" element={<Admin component={<Amenities/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/amenities/:amenityId"
                        element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>

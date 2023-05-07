@@ -49,7 +49,7 @@ function Admin(props) {
             label: 'Service Requests',
             icon: <PeopleIcon/>,
             onClick: () => {
-                navigate("/admin/serviceRequests", {replace: true});
+                navigate("/admin/servicerequests", {replace: true});
             }
         },
         {
