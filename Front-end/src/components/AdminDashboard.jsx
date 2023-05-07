@@ -89,8 +89,43 @@ const AdminDashboard = () => {
       //       </ThemeProvider>
       //   </ComponentContext.Provider>
       // <ComponentDisplayBox displayComponent={displayComponent}/>
-	  <Box p={3}>
-      <div>
+	  <Box
+        component="main"
+        sx={{
+            backgroundColor: (theme) =>
+                theme.palette.mode === 'light'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+        }}
+    >
+        {/* <Toolbar/> */}
+
+        <Box p={3}>
+
+            {/*<ProfilePage user={{*/}
+            {/*    "firstName": "Sasanka",*/}
+            {/*    "lastName": "Kosuru",*/}
+            {/*    "dateOfBirth": "2022-03-12",*/}
+            {/*    "password": "Sasanka@1234",*/}
+            {/*    "email": "sasanka@gmail.com",*/}
+            {/*    "role": "user"*/}
+            {/*}}/>*/}
+
+            {/* <CustomPaginationActionsTable/> */}
+            {/* <Timeslots amenityId={'123344'} booking_date={'2023-05-02'}/> */}
+            {/* <AmenityBookingForm amenityId={'123344'}/> */}
+
+
+            {/* <div>
+               <BookingConfirmationCard bookingDetails={bookingDetails} />
+            </div> */}
+            {/*<Carousals/>*/}
+
+
+            <div>
                 {(() => {
                     var userData = JSON.parse(localStorage.getItem("user"));
                     console.log(userData);
@@ -115,7 +150,8 @@ const AdminDashboard = () => {
                     }
                 })()}
             </div>
-			</Box>
+        </Box>
+    </Box>
   );
 };
 
