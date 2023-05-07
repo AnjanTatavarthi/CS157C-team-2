@@ -5,11 +5,40 @@ import ServiceRequestsTable from './ServiceRequestsTable';
 import StaffTable from './StaffTable';
 import backend from '../utils/config';
 
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import Navbar from "./NavBar";
+import MenuBar from "./MenuBar";
+import {ComponentContext} from "./Dashboard";
+
+import ComponentDisplayBox from "./ComponentDisplayBox";
+import {createContext} from "react";
+import {useContext} from "react";
+
+
+import ProfilePage from "./ProfilePage";
+
+import Carousals from "./Carousels";
+import DisplayAmenities from "./AmenitiesPage";
+
+// export const ComponentContext = createContext();
+const mdTheme = createTheme();
+
 const AdminDashboard = () => {
+  console.log("In admin")
+  const [open, setOpen] = React.useState(true);
   const [amenities, setAmenities] = useState([]);
   const [serviceRequests, setServiceRequests] = useState([]);
   const [staffMembers, setStaffMembers] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [displayComponent, setDisplayComponent] = useContext(ComponentContext);
+  // const [displayComponent, setDisplayComponent] = React.useState("carousal");
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+};
+
 
   useEffect(() => {
     const fetchAmenities = async () => {
@@ -49,52 +78,44 @@ const AdminDashboard = () => {
   };
 
   return (
-    <>
-      <Container>
-        <Typography variant="h4" align="center" gutterBottom>
-          Management Dashboard
-        </Typography>
-
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={selectedTab} onChange={handleTabChange}>
-            <Tab label="Amenities" />
-            <Tab label="Service Requests" />
-            <Tab label="Staff Members" />
-          </Tabs>
-        </Box>
-
-        <Box sx={{ p: 3 }}>
-          {selectedTab === 0 && (
-            <>
-              <Typography variant="h5" gutterBottom>
-                Amenities
-              </Typography>
-              <AmenitiesTable amenities={amenities} />
-            </>
-          )}
-          {selectedTab === 1 && (
-            <>
-              <Typography variant="h5" gutterBottom>
-                Service Requests
-              </Typography>
-              <ServiceRequestsTable
-                serviceRequests={serviceRequests}
-                staffMembers={staffMembers}
-                onStaffAssignment={handleStaffAssignment}
-              />
-            </>
-          )}
-          {selectedTab === 2 && (
-            <>
-              <Typography variant="h5" gutterBottom>
-                Staff Members
-              </Typography>
-              <StaffTable staffMembers={staffMembers} />
-            </>
-          )}
-        </Box>
-      </Container>
-    </>
+      // <ComponentContext.Provider value={[displayComponent, setDisplayComponent]}>
+      //       <ThemeProvider theme={mdTheme}>
+      //           <Box sx={{display: 'flex'}}>
+      //               <CssBaseline/>
+      //               <Navbar open={open} toggleDrawer={toggleDrawer}/>
+      //               <MenuBar open={open} toggleDrawer={toggleDrawer}/>
+      //               <ComponentDisplayBox/>
+      //           </Box>
+      //       </ThemeProvider>
+      //   </ComponentContext.Provider>
+      // <ComponentDisplayBox displayComponent={displayComponent}/>
+	  <Box p={3}>
+      <div>
+                {(() => {
+                    var userData = JSON.parse(localStorage.getItem("user"));
+                    console.log(userData);
+                    console.log("displayComponent")
+                    console.log(displayComponent)
+                    switch (displayComponent) {
+                        case "Carousal":
+                            return <Carousals/>;
+                        case "Profile":
+                            return <ProfilePage user={{
+                                "firstName": userData.firstName,
+                                "lastName": userData.lastName,
+                                "dateOfBirth": userData.dateOfBirth,
+                                "password": userData.password,
+                                "email": userData.email,
+                                "role": userData.role
+                            }}/>;
+                        case "Amenities":
+                            return <DisplayAmenities/>;
+                        default:
+                            return <span>Other</span>;
+                    }
+                })()}
+            </div>
+			</Box>
   );
 };
 

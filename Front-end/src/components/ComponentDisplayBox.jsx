@@ -67,6 +67,8 @@ export default function ComponentDisplayBox() {
                 {(() => {
                     var userData = JSON.parse(localStorage.getItem("user"));
                     console.log(userData);
+                    console.log("displayComponent")
+                    console.log(displayComponent)
                     switch (displayComponent) {
                         case "Carousal":
                             return <Carousals/>;
