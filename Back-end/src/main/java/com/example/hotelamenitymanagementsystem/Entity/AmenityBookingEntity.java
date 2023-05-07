@@ -12,6 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -40,9 +41,10 @@ public class AmenityBookingEntity {
     @CassandraType(type = CassandraType.Name.DATE)
     private LocalDate bookingDate;
 
-    @PrimaryKeyColumn(name = COLUMN_BOOKING_TIME, ordinal = 2, type = PrimaryKeyType.CLUSTERED)
-    @CassandraType(type = CassandraType.Name.TIME)
-    private LocalTime bookingTime;
+//    @PrimaryKeyColumn(name = COLUMN_BOOKING_TIME, ordinal = 2, type = PrimaryKeyType.CLUSTERED)
+    @Column(COLUMN_BOOKING_TIME)
+    @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.TIME)
+    private List<LocalTime> bookingTime;
 
     @PrimaryKeyColumn(name = COLUMN_AMENITY_ID, ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     @CassandraType(type = CassandraType.Name.TEXT)

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 
 @Data
@@ -17,7 +18,7 @@ public class AmenityBooking {
     private String bookingId;
     private String userEmail;
     private LocalDate bookingDate;
-    private LocalTime bookingTime;
+    private List<LocalTime> bookingTime;
     private String amenityId;
 }
 

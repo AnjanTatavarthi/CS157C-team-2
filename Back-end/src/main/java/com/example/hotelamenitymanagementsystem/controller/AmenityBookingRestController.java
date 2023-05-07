@@ -67,13 +67,24 @@ public class AmenityBookingRestController {
 //        return amenityBookings.stream().map(AmenityBookingUtils::mapAsAmenityBooking);
 //    }
 
+//    @GetMapping("/{amenity_booking_id}/{booking_date}")
+//    public ResponseEntity<Stream<String>> getFilledTimeSlots(HttpServletRequest req,
+//                                                             @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
+//                                                             @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+//        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
+//        return ResponseEntity.ok(amenityBookings.stream().map(booking -> booking.getBookingTime().format(DateTimeFormatter.ofPattern("HH:mm"))));
+//    }
+
     @GetMapping("/{amenity_booking_id}/{booking_date}")
     public ResponseEntity<Stream<String>> getFilledTimeSlots(HttpServletRequest req,
                                                              @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
                                                              @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
-        return ResponseEntity.ok(amenityBookings.stream().map(booking -> booking.getBookingTime().format(DateTimeFormatter.ofPattern("HH:mm"))));
+        Stream<String> formattedTimeSlots = amenityBookings.stream()
+                .flatMap(booking -> booking.getBookingTime().stream().map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm"))));
+        return ResponseEntity.ok(formattedTimeSlots);
     }
+
 
 
     @PostMapping
