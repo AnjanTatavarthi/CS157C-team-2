@@ -4,14 +4,14 @@ import {Route, Routes, useLocation} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LandingPage from "./components/LandingPage";
-import PeopleTable from "./components/PeopleTable/PeopleTable";
+import PeopleTable from "./pages/Admin/PeopleTable";
 import Carousals from "./components/Carousels";
 import Admin from "./pages/Admin/Admin";
-import BookingTable from "./components/BookingTable";
+import BookingTable from "./pages/Admin/BookingTable";
 import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
 import AmenityBookingForm from "./components/AmenityBookingForm";
-import ServiceRequestTable from "./components/PeopleTable/ServiceRequestTable";
+import ServiceRequestTable from "./pages/Admin/ServiceRequestTable";
 
 
 function App() {
