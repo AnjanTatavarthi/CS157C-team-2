@@ -53,7 +53,7 @@ const SignupForm = ({setAuth}) => {
                 "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character."
             )
             .required("Password is required."),
-        date_of_birth: Yup.date()
+        dateOfBirth: Yup.date()
             .max(new Date(), "Date of birth cannot be in the future.")
             .required("Date of birth is required."),
         role: Yup.string()
@@ -69,7 +69,7 @@ const SignupForm = ({setAuth}) => {
             email: "",
             password: "",
             role: "",
-            date_of_birth: ""
+            dateOfBirth: ""
         },
         validationSchema: SignupSchema,
         onSubmit: (form_values) => {
@@ -80,7 +80,7 @@ const SignupForm = ({setAuth}) => {
                 firstName: form_values.firstName,
                 lastName: form_values.lastName,
                 role: form_values.role,
-                date_of_birth: form_values.date_of_birth
+                dateOfBirth: form_values.dateOfBirth
             }).then((response) => {
                 console.log(form_values)
                 setAuth(true);
@@ -170,7 +170,7 @@ const SignupForm = ({setAuth}) => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            {...getFieldProps("date_of_birth")}
+                            {...getFieldProps("dateOfBirth")}
                             error={Boolean(touched.date && errors.date)}
                             helperText={touched.date && errors.date}
                         />

@@ -14,6 +14,7 @@ const mdTheme = createTheme();
 
 export const ComponentContext = createContext();
 
+
 function Dashboard() {
     const [open, setOpen] = React.useState(true);
     const [displayComponent, setDisplayComponent] = React.useState("carousal");
@@ -48,12 +49,12 @@ function Dashboard() {
                     <CssBaseline/>
                     <Navbar open={open} toggleDrawer={toggleDrawer}/>
                     <MenuBar open={open} toggleDrawer={toggleDrawer}/>
-                    <ComponentDisplayBox/>
-
+                    {/* <ComponentDisplayBox/> */}
+                    {renderComponent()};
                 </Box>
             </ThemeProvider>
         </ComponentContext.Provider>
-
+        
     );
 }
 

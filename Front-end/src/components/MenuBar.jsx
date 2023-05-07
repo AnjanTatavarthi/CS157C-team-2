@@ -59,27 +59,41 @@ export default function MenuBar(props: MenuProps) {
         {
             label: 'Dashboard',
             icon: <DashboardIcon/>,
-            onClick: () => setDisplayComponent('Carousal'),
+            onClick: () => {
+                window.history.replaceState(null, "Dashboard", "/dashboard");
+                setDisplayComponent('Carousal')
+            }
         },
         {
             label: 'Bookings',
             icon: <ShoppingCartIcon/>,
-            onClick: () => setDisplayComponent('Bookings'),
+            onClick: () => {
+                window.history.replaceState(null, "Bookings", "/bookings");
+                setDisplayComponent('Bookings')
+            }
         },
         {
             label: 'Amenities',
             icon: <ShoppingCartIcon/>,
-            onClick: () => setDisplayComponent('Amenities'),
+            onClick: () => {
+                window.history.replaceState(null, "Amenities", "/amenities");
+                setDisplayComponent('Amenities');
+            }
         },
         {
             label: 'Service Requests',
             icon: <PeopleIcon/>,
-            onClick: () => setDisplayComponent('Service Requests'),
+            onClick: () => {
+                window.history.replaceState(null, "Amenities", "/amenities");
+                setDisplayComponent('Service Requests');
+            }
         },
         {
             label: 'Guests',
             icon: <BarChartIcon/>,
-            onClick: () => setDisplayComponent('Guests'),
+            onClick: () => {
+                setDisplayComponent('Guests');
+            }
         },
     ];
 

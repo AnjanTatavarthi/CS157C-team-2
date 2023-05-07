@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./components/Dashboard";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -17,14 +18,18 @@ function App() {
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/signup" element={<Signup setAuth={setAuth} />} />
           <Route path="/dashboard" element={<Dashboard setAuth={setAuth} />} />
+          <Route path="/" element={<LandingPage setAuth={setAuth} />} />
+
 
         <Route
           path="/"
           element={
             auth ? (
-              <Home setAuth={setAuth} />
+              // <Home setAuth={setAuth} />
+              <Navigate to="/dashboard" state={{ from: location }} replace />
             ) : (
-              <Navigate to="/login" state={{ from: location }} replace />
+              // <Navigate to="/login" state={{ from: location }} replace />
+              <Navigate to="/" state={{ from: location }} replace />
             )
           }
         />
