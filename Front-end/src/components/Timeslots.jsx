@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
     slotSelected: {
         backgroundColor: '#4caf50',
-
         color: '#fff',
         '&:hover': {
             backgroundColor: '#4caf50',
@@ -119,7 +118,6 @@ function SlotTimingsLayout(props: TimingSlotsProps) {
         }
         return slots;
     };
-
 
     return (
         <Container className={classes.container}>

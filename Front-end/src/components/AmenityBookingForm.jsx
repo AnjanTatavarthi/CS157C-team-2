@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Timeslots from './Timeslots';
 import backend from "../utils/config";
+import {useParams} from "react-router-dom";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-interface AmenityBookingFormProps {
-    amenityId: string;
-}
-
-function AmenityBookingForm(props: AmenityBookingFormProps) {
+function AmenityBookingForm() {
+    const amenityId = useParams();
     const classes = useStyles();
     const [bookingDate, setBookingDate] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -82,7 +80,7 @@ function AmenityBookingForm(props: AmenityBookingFormProps) {
                     userEmail: user.email,
                     bookingDate: bookingDate,
                     bookingTime: slot,
-                    amenityId: props.amenityId
+                    amenityId: amenityId
                 }).then((response) => {
                     console.log("booking successful: " + response);
                 }).catch(() => {
@@ -116,9 +114,8 @@ function AmenityBookingForm(props: AmenityBookingFormProps) {
 
             {submitted &&
                 <div>
-                    <Timeslots key={timeslotsKey} amenityId={props.amenityId} booking_date={bookingDate}
+                    <Timeslots key={timeslotsKey} amenityId={amenityId} booking_date={bookingDate}
                                onSlotChange={handleSlotChange}/>
-
                     <container>
                         <form className={classes.form} onSubmit={createBooking}>
                             <Button
@@ -132,9 +129,7 @@ function AmenityBookingForm(props: AmenityBookingFormProps) {
                             </Button>
                         </form>
                     </container>
-
                 </div>
-
             }
         </div>
     );

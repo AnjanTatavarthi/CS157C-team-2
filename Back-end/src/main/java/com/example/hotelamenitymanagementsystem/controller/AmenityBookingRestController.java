@@ -104,7 +104,8 @@ public class AmenityBookingRestController {
 
     @DeleteMapping("/{amenityId}")
     public ResponseEntity<Void> deleteAmenity(@PathVariable UUID amenityId) {
-        repo.deleteById(amenityId);
+        AmenityBookingEntity amenityBookingEntity = AmenityBookingUtils.convertToBookingEntity(repoById.findById(amenityId).get());
+        repo.delete(amenityBookingEntity);
         repoById.deleteById(amenityId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

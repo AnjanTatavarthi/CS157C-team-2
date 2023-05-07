@@ -52,4 +52,15 @@ public class AmenityBookingUtils {
                 .bookingId(amenityBooking.getBookingId() != null ? UUID.fromString(amenityBooking.getBookingId()) : Uuids.random())
                 .build();
     }
+
+
+    public static AmenityBookingEntity convertToBookingEntity(AmenityBookingEntityById amenityBooking) {
+        return AmenityBookingEntity.builder()
+                .amenityId(amenityBooking.getAmenityId())
+                .bookingDate(amenityBooking.getBookingDate())
+                .bookingTime(amenityBooking.getBookingTime())
+                .userEmail(amenityBooking.getUserEmail())
+                .bookingId(amenityBooking.getBookingId())
+                .build();
+    }
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -15,8 +15,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import {useEffect, useState} from "react";
-import backend from "../utils/config";
+import backend from '../../utils/config';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -52,14 +51,22 @@ function TablePaginationActions(props) {
                 disabled={page === 0}
                 aria-label="previous page"
             >
-                {theme.direction === 'rtl' ? <KeyboardArrowRight/> : <KeyboardArrowLeft/>}
+                {theme.direction === 'rtl' ? (
+                    <KeyboardArrowRight/>
+                ) : (
+                    <KeyboardArrowLeft/>
+                )}
             </IconButton>
             <IconButton
                 onClick={handleNextButtonClick}
                 disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                 aria-label="next page"
             >
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft/> : <KeyboardArrowRight/>}
+                {theme.direction === 'rtl' ? (
+                    <KeyboardArrowLeft/>
+                ) : (
+                    <KeyboardArrowRight/>
+                )}
             </IconButton>
             <IconButton
                 onClick={handleLastPageButtonClick}
@@ -79,14 +86,23 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
+export default function GuestTable() {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [users, setUsers] = useState([]);
 
-export default function CustomPaginationActionsTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bookings.length) : 0;
+    useEffect(() => {
+        // Make API request to retrieve user data
+        backend
+            .get('/users/')
+            .then((response) => {
+                console.log(response.data);
+                setUsers(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -97,54 +113,48 @@ export default function CustomPaginationActionsTable() {
         setPage(0);
     };
 
-    const [bookings, setBookings] = useState([
-        [{
-            bookingId: "3edcbc47-37e2-4eb1-be2e-c9cda2d73a22",
-            userEmail: "anjan1@example.com",
-            bookingDate: "2023-05-02",
-            bookingTime: "12:30:00",
-            amenityId: "123344"
-        }]
-    ]);
-
-    useEffect(() => {
-        // Make API request to retrieve user data
-        backend.get('/amenityBookings')
-            .then(response => {
-                console.log(response);
-                // Update state with user data
-                setBookings(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
+    // Calculate the number of empty rows to maintain consistent height
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
     return (
         <Box p={4}>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 500}} aria-label="custom pagination table">
                     <TableBody>
-                        {(rowsPerPage > 0
-                                ? bookings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : bookings
-                        ).map((booking) => (
-                            <TableRow key={booking.bookingId}>
-                                <TableCell component="th" scope="row">
-                                    {booking.bookingId}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {booking.userEmail}
-                                </TableCell>
+                        <TableRow style={{backgroundColor: '#44acf0'}}>
+                            <TableCell component="th" scope="row" style={{fontWeight: 'bold'}}>
+                                First Name
+                            </TableCell>
+                            <TableCell component="th" scope="row" style={{fontWeight: 'bold'}}>
+                                Last Name
+                            </TableCell>
+                            <TableCell component="th" scope="row" style={{fontWeight: 'bold'}}>
+                                Date of Birth
+                            </TableCell>
+                            <TableCell component="th" scope="row" style={{fontWeight: 'bold'}}>
+                                Email
+                            </TableCell>
+                            <TableCell component="th" scope="row" style={{fontWeight: 'bold'}}>
+                                Role
+                            </TableCell>
+                        </TableRow>
 
+                        {(rowsPerPage > 0
+                                ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : users
+                        ).map((user, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{user.firstName}</TableCell>
+                                <TableCell>{user.lastName}</TableCell>
+                                <TableCell>{user.dateOfBirth}</TableCell>
+                                <TableCell>{user.email}</TableCell>
+                                <TableCell>{user.role}</TableCell>
                             </TableRow>
                         ))}
-
                         {emptyRows > 0 && (
                             <TableRow style={{height: 53 * emptyRows}}>
-                                <TableCell colSpan={6}/>
+                                <TableCell colSpan={5}/>
                             </TableRow>
                         )}
                     </TableBody>
@@ -152,8 +162,8 @@ export default function CustomPaginationActionsTable() {
                         <TableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
-                                colSpan={3}
-                                count={bookings.length}
+                                colSpan={5}
+                                count={users.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 SelectProps={{
@@ -173,3 +183,4 @@ export default function CustomPaginationActionsTable() {
         </Box>
     );
 }
+

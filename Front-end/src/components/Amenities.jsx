@@ -7,8 +7,7 @@ import {useEffect, useState} from "react";
 
 
 
-export default function DisplayAmenities() {
-
+export default function Amenities() {
 
     const [amenities, setAmenities] = useState([]);
 

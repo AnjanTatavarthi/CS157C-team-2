@@ -1,21 +1,26 @@
 import * as Yup from "yup";
 import {useState} from "react";
-import {useFormik, Form, FormikProvider} from "formik";
+import {Form, FormikProvider, useFormik} from "formik";
 import {useNavigate} from "react-router-dom";
 import {
-    Stack,
     Box,
-    TextField,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
     IconButton,
-    InputAdornment, FormHelperText, FormControlLabel, Radio, RadioGroup, FormControl, FormLabel, FormGroup, Checkbox,
+    InputAdornment,
+    Radio,
+    RadioGroup,
+    Stack,
+    TextField,
 } from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {Icon} from "@iconify/react";
 import {motion} from "framer-motion";
 import backend from "../utils/config";
-import login from "../pages/Login";
 
-/////////////////////////////////////////////////////////////
+
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
     opacity: 1,

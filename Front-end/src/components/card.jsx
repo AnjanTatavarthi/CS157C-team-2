@@ -10,25 +10,7 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Button} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
-import {useContext} from "react";
-import {ComponentContext} from "./Dashboard";
-
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
-
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const {expand, ...other} = props;
-    return <IconButton {...other} />;
-})(({theme, expand}) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
+import {useNavigate} from "react-router-dom";
 
 interface AmenityCardProps {
     amenityId: string;
@@ -40,18 +22,7 @@ interface AmenityCardProps {
 }
 
 export default function AmenityCard(props: AmenityCardProps) {
-
-
-    // const [displayComponent, setDisplayComponent] = useContext(ComponentContext);
-
-    console.log(props.props);
-    const [expanded, setExpanded] = React.useState(false);
-
-    console.log("Name Props" + props.name);
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
+    const navigate = useNavigate();
     return (
         <Card sx={{maxWidth: 345}}>
             <CardHeader
@@ -83,9 +54,9 @@ export default function AmenityCard(props: AmenityCardProps) {
                 </Typography>
             </CardContent>
 
-
             <CardActions disableSpacing sx={{justifyContent: 'center'}}>
-                <Button variant="contained" color="primary" endIcon={<SendIcon/>} >
+                <Button variant="contained" color="primary" endIcon={<SendIcon/>}
+                        onClick={() => navigate(`/admin/amenities/${props.amenityId}`, {replace: true})}>
                     Create Booking
                 </Button>
             </CardActions>

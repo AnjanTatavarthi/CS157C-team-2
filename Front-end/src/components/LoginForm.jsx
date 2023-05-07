@@ -1,22 +1,13 @@
 import React, {useState} from "react";
-import {Link as RouterLink, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Form, FormikProvider, useFormik} from "formik";
 import * as Yup from "yup";
 
-import {ToastContainer, toast} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-import {
-    Box,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-} from "@mui/material";
+import {Box, IconButton, InputAdornment, Stack, TextField,} from "@mui/material";
 import {LoadingButton} from "@mui/lab";
 import {Icon} from "@iconify/react";
 import {motion} from "framer-motion";
@@ -61,28 +52,24 @@ const LoginForm = ({setAuth}) => {
                 password: form_values.password
             }).then((response) => {
                 var responseData = response.data;
-        console.log(responseData);
-        if (!responseData.success) {
-          formik.resetForm();
-          toast.error('User not found!', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-        }
-        else {
-          console.log("IN ELSE");
-          setAuth(true);
-        //   console.log("/"+responseData.role);
-          localStorage.setItem("user", JSON.stringify(response.data))
-        //   navigate("/"+responseData.role);//, { replace: true });
-        navigate(dashboard, {replace: true});
-        }
-                
+                console.log(responseData);
+                if (!responseData.success) {
+                    formik.resetForm();
+                    toast.error('Guest not found!', {
+                        position: 'top-center',
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    })
+                } else {
+                    setAuth(true);
+                    localStorage.setItem("user", JSON.stringify(response.data))
+                    navigate("/admin", {replace: true});
+                }
+
             }).catch(() => {
             });
         },
@@ -93,109 +80,92 @@ const LoginForm = ({setAuth}) => {
 
     return (
         <>
-        <ToastContainer />
-        <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Box
-                    component={motion.div}
-                    animate={{
-                        transition: {
-                            staggerChildren: 0.55,
-                        },
-                    }}
-                >
+            <ToastContainer/>
+            <FormikProvider value={formik}>
+                <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
                     <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 3,
+                        component={motion.div}
+                        animate={{
+                            transition: {
+                                staggerChildren: 0.55,
+                            },
                         }}
-                        component={motion.div}
-                        initial={{opacity: 0, y: 40}}
-                        animate={animate}
                     >
-                        <TextField
-                            fullWidth
-                            autoComplete="username"
-                            type="email"
-                            label="Email Address"
-                            {...getFieldProps("email")}
-                            error={Boolean(touched.email && errors.email)}
-                            helperText={touched.email && errors.email}
-                        />
-
-                        <TextField
-                            fullWidth
-                            autoComplete="current-password"
-                            type={showPassword ? "text" : "password"}
-                            label="Password"
-                            {...getFieldProps("password")}
-                            error={Boolean(touched.password && errors.password)}
-                            helperText={touched.password && errors.password}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={() => setShowPassword((prev) => !prev)}
-                                        >
-                                            {showPassword ? (
-                                                <Icon icon="eva:eye-fill"/>
-                                            ) : (
-                                                <Icon icon="eva:eye-off-fill"/>
-                                            )}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: 3,
                             }}
-                        />
-                    </Box>
-
-                    <Box
-                        component={motion.div}
-                        initial={{opacity: 0, y: 20}}
-                        animate={animate}
-                    >
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            sx={{my: 2}}
+                            component={motion.div}
+                            initial={{opacity: 0, y: 40}}
+                            animate={animate}
                         >
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        {...getFieldProps("remember")}
-                                        checked={values.remember}
-                                    />
-                                }
-                                label="Remember me"
+                            <TextField
+                                fullWidth
+                                autoComplete="username"
+                                type="email"
+                                label="Email Address"
+                                {...getFieldProps("email")}
+                                error={Boolean(touched.email && errors.email)}
+                                helperText={touched.email && errors.email}
                             />
 
-                            <Link
-                                component={RouterLink}
-                                variant="subtitle2"
-                                to="#"
-                                underline="hover"
-                            >
-                                Forgot password?
-                            </Link>
-                        </Stack>
+                            <TextField
+                                fullWidth
+                                autoComplete="current-password"
+                                type={showPassword ? "text" : "password"}
+                                label="Password"
+                                {...getFieldProps("password")}
+                                error={Boolean(touched.password && errors.password)}
+                                helperText={touched.password && errors.password}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={() => setShowPassword((prev) => !prev)}
+                                            >
+                                                {showPassword ? (
+                                                    <Icon icon="eva:eye-fill"/>
+                                                ) : (
+                                                    <Icon icon="eva:eye-off-fill"/>
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Box>
 
-                        <LoadingButton
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                            loading={isSubmitting}
+                        <Box
+                            component={motion.div}
+                            initial={{opacity: 0, y: 20}}
+                            animate={animate}
                         >
-                            {isSubmitting ? "loading..." : "Login"}
-                        </LoadingButton>
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                sx={{my: 2}}
+                            >
+
+                            </Stack>
+
+                            <LoadingButton
+                                fullWidth
+                                size="large"
+                                type="submit"
+                                variant="contained"
+                                loading={isSubmitting}
+                            >
+                                {isSubmitting ? "loading..." : "Login"}
+                            </LoadingButton>
+                        </Box>
                     </Box>
-                </Box>
-            </Form>
-        </FormikProvider>
+                </Form>
+            </FormikProvider>
         </>
-        
+
     );
 };
 
