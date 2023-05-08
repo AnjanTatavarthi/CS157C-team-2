@@ -7,7 +7,8 @@ import LandingPage from "./components/LandingPage";
 import PeopleTable from "./pages/Admin/PeopleTable";
 import Carousals from "./components/Carousels";
 import Admin from "./pages/Admin/Admin";
-import BookingTable from "./pages/Admin/BookingTable";
+// import BookingTable from "./pages/Admin/BookingTable";
+import BookingTable from "./components/BookingTable";
 import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
 import AmenityBookingForm from "./components/AmenityBookingForm";
@@ -17,6 +18,7 @@ import Guest from "./pages/Guest/Guest";
 import StaffServiceRequestTable from "./pages/Staff/StaffServiceRequestTable";
 import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequestTable";
 import BookingConfirmationCard from "./components/BookingConfirmationCard";
+import GuestAmenityBookingForm from "./pages/Guest/GuestAmenityBookingForm";
 
 
 function App() {
@@ -62,7 +64,9 @@ function App() {
                 <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
 
                 <Route path="/guest/amenities/:amenityId"
-                       element={<Guest component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
+                       element={<Guest component={<GuestAmenityBookingForm/>} setAuth={setAuth}/>}/>
+              <Route path="/guest/amenities/booking-confirmation/:booking_id"
+              element={<Guest component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
 
 
                 {/* <Route path="/admin/amenities/:amenityId" */}

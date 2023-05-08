@@ -5,7 +5,9 @@ import com.example.hotelamenitymanagementsystem.Dao.AmenityBookingRepositoryCass
 import com.example.hotelamenitymanagementsystem.Entity.AmenityBookingEntity;
 import com.example.hotelamenitymanagementsystem.Entity.AmenityBookingEntityById;
 import com.example.hotelamenitymanagementsystem.object.AmenityBooking;
+import com.example.hotelamenitymanagementsystem.object.ServiceRequest;
 import com.example.hotelamenitymanagementsystem.utils.AmenityBookingUtils;
+import com.example.hotelamenitymanagementsystem.utils.ServiceRequestUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +48,13 @@ public class AmenityBookingRestController {
     public Stream<AmenityBooking> findAll(HttpServletRequest req) {
         return repoById.findAll().stream()
                 .map(AmenityBookingUtils::mapAsAmenityBooking);
+    }
+
+    @GetMapping("/guest-email/{guest_email}")
+    public Stream<AmenityBooking> findByGuestEmail(HttpServletRequest req, @PathVariable(value = "guest_email") String guestEmail) {
+        return repo.findAll().stream()
+                .map(AmenityBookingUtils::mapAsAmenityBooking)
+                .filter(amenityBooking -> amenityBooking.getUserEmail().equals(guestEmail));
     }
 
 
