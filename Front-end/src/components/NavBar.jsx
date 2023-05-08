@@ -86,9 +86,9 @@ export default function Navbar(props: NavbarProps) {
                     Amenity Hub
                 </Typography>
 
-                <Typography color="inherit" variant="subtitle1" sx={{mr: 0.5}}>
+                {/* <Typography color="inherit" variant="subtitle1" sx={{mr: 0.5}}>
                     welcome Anjan!
-                </Typography>
+                </Typography> */}
 
 
                 <div>

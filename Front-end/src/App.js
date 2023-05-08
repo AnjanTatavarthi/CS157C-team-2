@@ -56,7 +56,7 @@ function App() {
 
                 <Route path="/guest" element={<Guest component={<Carousals/>} setAuth={setAuth}/>}/>
                 {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
-                {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/> */}
+                <Route path="/guest/bookings" element={<Guest component={<BookingTable/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/servicerequests"
                        element={<Guest component={<GuestServiceRequestTable/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
