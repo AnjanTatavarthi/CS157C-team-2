@@ -4,8 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Timeslots from './Timeslots';
 import backend from "../utils/config";
-import {useParams} from "react-router-dom";
-
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function AmenityBookingForm() {
-    const amenityId = useParams();
+    const navigate = useNavigate();
+    const {amenityId} = useParams();
     const classes = useStyles();
     const [bookingDate, setBookingDate] = useState('');
     const [submitted, setSubmitted] = useState(false);
@@ -74,19 +74,16 @@ function AmenityBookingForm() {
         console.log("Submitting create booking form...");
         console.log(selectedSlots);
         setSubmitted(false);
-
-        selectedSlots.forEach((slot) => {
-                backend.post('/amenityBookings', {
-                    userEmail: user.email,
-                    bookingDate: bookingDate,
-                    bookingTime: slot,
-                    amenityId: amenityId
-                }).then((response) => {
-                    console.log("booking successful: " + response);
-                }).catch(() => {
-                })
-            }
-        );
+        backend.post('/amenityBookings', {
+            userEmail: user.email,
+            bookingDate: bookingDate,
+            bookingTime: selectedSlots,
+            amenityId: amenityId
+        }).then((response) => {
+            console.log("booking successful: " + response);
+            navigate(`/admin/amenities/booking-confirmation/${response.data.bookingId}`, {replace: true});
+        }).catch(() => {
+        });
     };
 
     return (
