@@ -12,6 +12,10 @@ import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
 import AmenityBookingForm from "./components/AmenityBookingForm";
 import ServiceRequestTable from "./pages/Admin/ServiceRequestTable";
+import Staff from "./pages/Staff/Staff";
+import Guest from "./pages/Guest/Guest";
+import StaffServiceRequestTable from "./pages/Staff/StaffServiceRequestTable";
+import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequestTable";
 
 
 function App() {
@@ -34,6 +38,32 @@ function App() {
                 <Route path="/admin/amenities/:amenityId"
                        element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/>
+
+
+                <Route path="/staff" element={<Staff component={<Carousals/>} setAuth={setAuth}/>}/>
+                {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
+                {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/> */}
+                <Route path="/staff/servicerequests" element={<Staff component={<StaffServiceRequestTable/>} setAuth={setAuth}/>}/>
+                {/* <Route path="/admin/amenities" element={<Admin component={<Amenities/>} setAuth={setAuth}/>}/> */}
+                {/* <Route path="/admin/amenities/:amenityId" */}
+                       {/* element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/> */}
+                {/* <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/> */}
+
+
+
+                <Route path="/guest" element={<Guest component={<Carousals/>} setAuth={setAuth}/>}/>
+                {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
+                {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/> */}
+                <Route path="/guest/servicerequests" element={<Guest component={<GuestServiceRequestTable/>} setAuth={setAuth}/>}/>
+                <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
+
+                <Route path="/guest/amenities/:amenityId"
+                       element={<Guest component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
+
+
+                {/* <Route path="/admin/amenities/:amenityId" */}
+                       {/* element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/> */}
+                {/* <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/> */}
 
 
                 {/*<Route*/}

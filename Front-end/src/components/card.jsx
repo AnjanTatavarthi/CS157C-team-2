@@ -22,6 +22,8 @@ interface AmenityCardProps {
 }
 
 export default function AmenityCard(props: AmenityCardProps) {
+    var user = JSON.parse(localStorage.getItem("user"))
+
     const navigate = useNavigate();
     return (
         <Card sx={{maxWidth: 345}}>
@@ -56,7 +58,7 @@ export default function AmenityCard(props: AmenityCardProps) {
 
             <CardActions disableSpacing sx={{justifyContent: 'center'}}>
                 <Button variant="contained" color="primary" endIcon={<SendIcon/>}
-                        onClick={() => navigate(`/admin/amenities/${props.amenityId}`, {replace: true})}>
+                        onClick={() => navigate(`/${user.role}/amenities/${props.amenityId}`, {replace: true})}>
                     Create Booking
                 </Button>
             </CardActions>

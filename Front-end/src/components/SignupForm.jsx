@@ -62,7 +62,7 @@ const SignupForm = ({setAuth}) => {
             .max(new Date(), "Date of birth cannot be in the future.")
             .required("Date of birth is required."),
         role: Yup.string()
-            .oneOf(["admin", "user", "staff"], "Role must be admin, user, or staff.")
+            .oneOf(["admin", "guest", "staff"], "Role must be admin, guest, or staff.")
             .required("Role is required.")
 
     });
@@ -195,9 +195,9 @@ const SignupForm = ({setAuth}) => {
                                     label="Admin"
                                 />
                                 <FormControlLabel
-                                    value="user"
+                                    value="guest"
                                     control={<Radio/>}
-                                    label="User"
+                                    label="Guest"
                                 />
                                 <FormControlLabel
                                     value="staff"
