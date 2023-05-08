@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -7,10 +7,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import {Flight, Pool, Event, AccessTime, Email, ConfirmationNumber} from '@mui/icons-material';
 import {makeStyles} from '@material-ui/core/styles';
+import {useParams} from 'react-router-dom';
+import backend from '../utils/config';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 400,
+        marginTop: 100,
+        maxWidth: 500,
         margin: 'auto',
     },
     header: {
@@ -34,44 +37,55 @@ const useStyles = makeStyles({
     },
 });
 
-const BookingConfirmationCard = ({bookingDetails}) => {
-    const {
-        bookingId,
-        userEmail,
-        bookingDate,
-        bookingTime,
-        amenityId,
-    } = bookingDetails;
-
+const BookingConfirmationCard = () => {
+    const {booking_id} = useParams();
+    console.log(booking_id)
     const classes = useStyles();
+    const [bookingInfo, setBookingInfo] = useState(null);
+
+    useEffect(() => {
+        const fetchBookingInfo = async () => {
+            try {
+                const response = await backend.get(`amenityBookings/${booking_id}`);
+                setBookingInfo(response.data);
+                console.log('Booking Info:', response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchBookingInfo();
+    }, [booking_id]);
 
     return (
         <Card variant="outlined" className={classes.root}>
             <CardHeader
                 avatar={<Avatar className={classes.icon}><Pool/></Avatar>}
-                title={<Typography variant="h5" >Swimming Pool</Typography>}
+                title={<Typography variant="h5">Swimming Pool</Typography>}
                 className={classes.header}
             />
             <CardContent className={classes.content}>
                 <div className={classes.field}>
                     <Event className={classes.label}/>
-                    <Typography>{bookingDate}</Typography>
+                    <Typography>Booking Date  :    </Typography>
+
+                    <Typography>{bookingInfo?.bookingDate}</Typography>
                 </div>
                 <div className={classes.field}>
-                    <AccessTime className={classes.label}/>
-                    <Typography>{bookingTime}</Typography>
+                    <AccessTime className={classes.label} />
+                    <Typography>Slots  :    </Typography>
+                    <Typography>{bookingInfo?.bookingTime.join(', ')}</Typography>
                 </div>
+
                 <div className={classes.field}>
                     <Email className={classes.label}/>
-                    <Typography>{userEmail}</Typography>
+                    <Typography>Email  :    </Typography>
+                    <Typography>{bookingInfo?.userEmail}</Typography>
                 </div>
                 <div className={classes.field}>
                     <ConfirmationNumber className={classes.label}/>
-                    <Typography>{bookingId}</Typography>
-                </div>
-                <div className={classes.field}>
-                    <Flight className={classes.label}/>
-                    <Typography>{amenityId}</Typography>
+                    <Typography>BookingId  :    </Typography>
+                    <Typography>{booking_id}</Typography>
                 </div>
             </CardContent>
         </Card>

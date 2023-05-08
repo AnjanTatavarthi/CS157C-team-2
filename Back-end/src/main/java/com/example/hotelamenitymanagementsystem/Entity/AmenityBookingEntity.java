@@ -29,7 +29,8 @@ public class AmenityBookingEntity {
     public static final String COLUMN_BOOKING_TIME = "booking_time";
     public static final String COLUMN_AMENITY_ID = "amenity_id";
 
-    @Column(COLUMN_BOOKING_ID)
+
+    @PrimaryKeyColumn(name = COLUMN_BOOKING_ID, ordinal = 2, type = PrimaryKeyType.CLUSTERED)
     @CassandraType(type = CassandraType.Name.UUID)
     private UUID bookingId;
 
@@ -41,7 +42,6 @@ public class AmenityBookingEntity {
     @CassandraType(type = CassandraType.Name.DATE)
     private LocalDate bookingDate;
 
-//    @PrimaryKeyColumn(name = COLUMN_BOOKING_TIME, ordinal = 2, type = PrimaryKeyType.CLUSTERED)
     @Column(COLUMN_BOOKING_TIME)
     @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.TIME)
     private List<LocalTime> bookingTime;
