@@ -12,11 +12,11 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import {useNavigate} from "react-router-dom";
-import BookingTable from "./BookingTable";
+// import BookingTable from "../../components/BookingTable";
 
 const mdTheme = createTheme();
 
-function Admin(props) {
+function Guest(props) {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
@@ -28,37 +28,37 @@ function Admin(props) {
             label: 'Dashboard',
             icon: <DashboardIcon/>,
             onClick: () => {
-                navigate("/admin", {replace: true});
+                navigate("/guest", {replace: true});
             }
         },
-        {
-            label: 'Bookings',
-            icon: <ShoppingCartIcon/>,
-            onClick: () => {
-                navigate("/admin/bookings", {replace: true});
-            }
-        },
+        // {
+        //     label: 'Bookings',
+        //     icon: <ShoppingCartIcon/>,
+        //     onClick: () => {
+        //         navigate("/admin/bookings", {replace: true});
+        //     }
+        // },
         {
             label: 'Amenities',
             icon: <ShoppingCartIcon/>,
             onClick: () => {
-                navigate("/admin/amenities", {replace: true});
+                navigate("/guest/amenities", {replace: true});
             }
         },
         {
             label: 'Service Requests',
             icon: <PeopleIcon/>,
             onClick: () => {
-                navigate("/admin/servicerequests", {replace: true});
+                navigate("/guest/servicerequests", {replace: true});
             }
         },
-        {
-            label: 'People',
-            icon: <PeopleIcon/>,
-            onClick: () => {
-                navigate("/admin/people", {replace: true});
-            }
-        }
+        // {
+        //     label: 'People',
+        //     icon: <PeopleIcon/>,
+        //     onClick: () => {
+        //         navigate("/admin/people", {replace: true});
+        //     }
+        // }
     ];
 
     const secondaryMenuItems = [
@@ -105,4 +105,4 @@ function Admin(props) {
     );
 }
 
-export default Admin;
+export default Guest;

@@ -11,11 +11,13 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import {useNavigate} from "react-router-dom";
+// import BookingTable from "../../components/BookingTable";
 
 const mdTheme = createTheme();
 
-function UserDashboard() {
+function Staff(props) {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -26,37 +28,37 @@ function UserDashboard() {
             label: 'Dashboard',
             icon: <DashboardIcon/>,
             onClick: () => {
-
+                navigate("/staff", {replace: true});
             }
         },
-        {
-            label: 'Bookings',
-            icon: <ShoppingCartIcon/>,
-            onClick: () => {
-
-            }
-        },
-        {
-            label: 'Amenities',
-            icon: <ShoppingCartIcon/>,
-            onClick: () => {
-
-            }
-        },
+        // {
+        //     label: 'Bookings',
+        //     icon: <ShoppingCartIcon/>,
+        //     onClick: () => {
+        //         navigate("/admin/bookings", {replace: true});
+        //     }
+        // },
+        // {
+        //     label: 'Amenities',
+        //     icon: <ShoppingCartIcon/>,
+        //     onClick: () => {
+        //         navigate("/admin/amenities", {replace: true});
+        //     }
+        // },
         {
             label: 'Service Requests',
             icon: <PeopleIcon/>,
             onClick: () => {
-
+                navigate("/staff/servicerequests", {replace: true});
             }
         },
-        {
-            label: 'Guests',
-            icon: <BarChartIcon/>,
-            onClick: () => {
-
-            }
-        },
+        // {
+        //     label: 'People',
+        //     icon: <PeopleIcon/>,
+        //     onClick: () => {
+        //         navigate("/admin/people", {replace: true});
+        //     }
+        // }
     ];
 
     const secondaryMenuItems = [
@@ -95,7 +97,7 @@ function UserDashboard() {
                 >
                     <Toolbar/>
                     <Box p={3}>
-                        <Carousals/>
+                        {props.component}
                     </Box>
                 </Box>
             </Box>
@@ -103,4 +105,4 @@ function UserDashboard() {
     );
 }
 
-export default UserDashboard;
+export default Staff;

@@ -67,7 +67,8 @@ const LoginForm = ({setAuth}) => {
                 } else {
                     setAuth(true);
                     localStorage.setItem("user", JSON.stringify(response.data))
-                    navigate("/admin", {replace: true});
+                    console.log(response.data)
+                    navigate("/"+response.data.role, {replace: true});
                 }
 
             }).catch(() => {
