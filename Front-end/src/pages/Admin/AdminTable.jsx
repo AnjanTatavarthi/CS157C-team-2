@@ -94,7 +94,7 @@ export default function AdminTable() {
     useEffect(() => {
         // Make API request to retrieve user data
         backend
-            .get('/users/')
+            .get('/users/admin')
             .then((response) => {
                 console.log(response.data);
                 setUsers(response.data);

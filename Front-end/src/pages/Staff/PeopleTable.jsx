@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import GuestTable from './GuestTable';
-import StaffTable from '../../components/PeopleTable/StaffTable';
+import StaffTable from '../Admin/StaffTable';
 import AdminTable from './AdminTable';
 
 const TabPanel = ({children, value, index}) => {

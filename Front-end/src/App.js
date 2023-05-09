@@ -7,7 +7,8 @@ import LandingPage from "./components/LandingPage";
 import PeopleTable from "./pages/Admin/PeopleTable";
 import Carousals from "./components/Carousels";
 import Admin from "./pages/Admin/Admin";
-import BookingTable from "./pages/Admin/BookingTable";
+// import BookingTable from "./pages/Admin/BookingTable";
+import BookingTable from "./components/BookingTable";
 import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
 import AmenityBookingForm from "./components/AmenityBookingForm";
@@ -15,8 +16,10 @@ import ServiceRequestTable from "./pages/Admin/ServiceRequestTable";
 import Staff from "./pages/Staff/Staff";
 import Guest from "./pages/Guest/Guest";
 import StaffServiceRequestTable from "./pages/Staff/StaffServiceRequestTable";
-import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequestTable";
+import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequest";
 import BookingConfirmationCard from "./components/BookingConfirmationCard";
+import GuestAmenityBookingForm from "./pages/Guest/GuestAmenityBookingForm";
+import GuestServiceRequest from "./pages/Guest/GuestServiceRequest";
 
 
 function App() {
@@ -56,13 +59,15 @@ function App() {
 
                 <Route path="/guest" element={<Guest component={<Carousals/>} setAuth={setAuth}/>}/>
                 {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
-                {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/> */}
+                <Route path="/guest/bookings" element={<Guest component={<BookingTable/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/servicerequests"
-                       element={<Guest component={<GuestServiceRequestTable/>} setAuth={setAuth}/>}/>
+                       element={<Guest component={<GuestServiceRequest/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
 
                 <Route path="/guest/amenities/:amenityId"
-                       element={<Guest component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
+                       element={<Guest component={<GuestAmenityBookingForm/>} setAuth={setAuth}/>}/>
+              <Route path="/guest/amenities/booking-confirmation/:booking_id"
+              element={<Guest component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
 
 
                 {/* <Route path="/admin/amenities/:amenityId" */}

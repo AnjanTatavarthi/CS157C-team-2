@@ -31,13 +31,13 @@ function Guest(props) {
                 navigate("/guest", {replace: true});
             }
         },
-        // {
-        //     label: 'Bookings',
-        //     icon: <ShoppingCartIcon/>,
-        //     onClick: () => {
-        //         navigate("/admin/bookings", {replace: true});
-        //     }
-        // },
+        {
+            label: 'Bookings',
+            icon: <ShoppingCartIcon/>,
+            onClick: () => {
+                navigate("/guest/bookings", {replace: true});
+            }
+        },
         {
             label: 'Amenities',
             icon: <ShoppingCartIcon/>,

@@ -26,9 +26,6 @@ const GuestServiceRequestTable = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedStaff, setSelectedStaff] = useState(null);
 
-  const [selectedDetails, setSelectedDetails] = useState(null);
-  const [openDetails, setOpenDetails] = useState(false);
-
 
 
   var guestEmail = JSON.parse(localStorage.getItem("user"))["email"]
@@ -113,15 +110,6 @@ const GuestServiceRequestTable = () => {
   //   handleClose();
   // };
 
-  const handleDetailsOpen = (request) => {
-    setSelectedDetails(request);
-    setOpenDetails(true);
-  };
-
-  const handleDetailsClose = () => {
-    setOpenDetails(false);
-  };  
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -129,22 +117,19 @@ const GuestServiceRequestTable = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Assigned Staff</TableCell>
+              <TableCell>Guest Email</TableCell>
               <TableCell>Status</TableCell>
-              {/* <TableCell>Assigned Staff</TableCell> */}
-              {/* <TableCell>View Details</TableCell> */}
+              <TableCell>Assigned Staff</TableCell>
               <TableCell>Actions</TableCell>
+              {/* <TableCell>Actions1</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-        {serviceRequests.map((request, index) => (
-          <TableRow key={request.requestid}>
-            {/* ... (existing cell JSX) */}
-            <TableCell>{index+1}</TableCell>
-            <TableCell>
-                  {request.assignedStaff || 'Unassigned'}
-                </TableCell>
-            <TableCell>
+            {serviceRequests.map((request, index) => (
+              <TableRow key={request.requestid}>
+                <TableCell>{index+1}</TableCell>
+                <TableCell>{request.guestEmail}</TableCell>
+                <TableCell>
 
                 {request.status === 'open' && (
   <Chip label="Open" color="secondary" />
@@ -161,48 +146,50 @@ const GuestServiceRequestTable = () => {
 
 
                 </TableCell>
-            <TableCell>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleDetailsOpen(request)}
-              >
-                Details
-              </Button>
-              
-              <Button style={{ marginLeft: '1rem' }}
+                <TableCell>
+                  {request.assignedStaff || 'Unassigned'}
+                </TableCell>
+                <TableCell>
+                    <Button
                       variant="contained"
                       color="primary"
                       onClick={() => deleteServiceRequest(request.requestId)}
                     >
                       Delete
                     </Button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
+                </TableCell>
+                {/* <TableCell>
+                  {request.requestId}
+                </TableCell> */}
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
 
-      <Dialog open={openDetails} onClose={handleDetailsClose}>
-        <DialogTitle>Service Request Details</DialogTitle>
-        <DialogContent>
-          {selectedDetails && (
-            <div>
-              <Typography variant="body1">ID: {selectedDetails.requestId}</Typography>
-              <Typography variant="body1">Guest Email: {selectedDetails.guestEmail}</Typography>
-              <Typography variant="body1">Comments: {selectedDetails.comments}</Typography>
-              <Typography variant="body1">Status: {selectedDetails.status}</Typography>
-              <Typography variant="body1">Assigned Staff: {selectedDetails.assignedStaff || 'Unassigned'}</Typography>
-            </div>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDetailsClose} color="secondary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Are you sure?   </DialogTitle>
+    {/* <DialogContent>
+      <Autocomplete
+        options={staffList}
+        getOptionLabel={(option) => option.firstName+" "+option.lastName}
+        onChange={(event, newValue) => {
+          setSelectedStaff(newValue);
+        }}
+        renderInput={(params) => (
+          <TextField {...params} label="Staff" variant="outlined" />
+        )}
+      />
+    </DialogContent> */}
+    {/* <DialogActions>
+      <Button onClick={handleClose} color="secondary">
+        No
+      </Button>
+      <Button onClick={markAsComplete} color="primary">
+        Yes
+      </Button>
+    </DialogActions> */}
+  </Dialog>
 </div>
 
 );

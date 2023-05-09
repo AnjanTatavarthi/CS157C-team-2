@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import backend from "../../utils/config";
+import backend from "../utils/config";
 
 const TabPanel = ({children, value, index}) => {
     return <div role="tabpanel" hidden={value !== index}>{value === index && <Box p={3}>{children}</Box>}</div>;
@@ -39,7 +39,14 @@ const BookingTable = () => {
 
     useEffect(() => {
         // Make API request to retrieve bookings data
-        backend.get('/amenityBookings')
+
+        var user = JSON.parse(localStorage.getItem("user"))
+        var URL = "/amenityBookings";
+        if(user.role=="guest"){
+            URL = "/amenityBookings/guest-email/"+user.email;
+        }
+        console.log(URL)
+        backend.get(URL)
             .then(response => {
                 console.log(response);
                 // Update state with bookings data
