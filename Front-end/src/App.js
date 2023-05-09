@@ -47,7 +47,7 @@ function App() {
                             <Route path="/admin" element={<RedirectAuth auth={auth} element={<Admin component={<Carousals/>}/>}/>}/>
                             <Route path="/admin" element={<RedirectAuth auth={auth} element={<Admin component={<Carousals/>}/>}/>}/>
                             <Route path="/admin/people" element={<RedirectAuth auth={auth} element={<Admin component={<PeopleTable/>}/>}/>}/>
-                            <Route path="/admin/bookings" element={<RedirectAuth auth={auth} element={<Admin component={<BookingTable/>}/>}/>}/>
+                            <Route path="/admin/bookings" element={<RedirectAuth auth={auth} element={<Admin component={<AdminBookingTable/>}/>}/>}/>
                             <Route path="/admin/servicerequests" element={<RedirectAuth auth={auth} element={<Admin component={<ServiceRequestTable/>}/>}/>}/>
                             <Route path="/admin/amenities" element={<RedirectAuth auth={auth} element={<Admin component={<Amenities/>}/>}/>}/>
                             <Route path="/admin/amenities/:amenityId" element={<RedirectAuth auth={auth} element={<Admin component={<AmenityBookingForm/>}/>}/>}/>

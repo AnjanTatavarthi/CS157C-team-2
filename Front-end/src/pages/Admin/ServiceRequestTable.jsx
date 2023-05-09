@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import backend from '../../utils/config';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import {
     Table,
     TableBody,
@@ -97,6 +103,70 @@ const ServiceRequestTable = () => {
         handleClose();
     };
 
+    const useStyles = makeStyles((theme) => ({
+        dialogPaper: {
+          minWidth: '300px',
+          borderRadius: '8px',
+          backgroundColor: theme.palette.background.paper,
+          boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.2)',
+        },
+        dialogTitle: {
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          padding: theme.spacing(2),
+          borderRadius: '8px 8px 0 0',
+        },
+        dialogContent: {
+          padding: theme.spacing(2),
+        },
+        dialogActions: {
+          margin: 0,
+          padding: theme.spacing(1),
+          borderTop: `1px solid ${theme.palette.divider}`,
+          justifyContent: 'flex-end',
+        },
+      }));
+
+    const MyDialog = () => {
+        const classes = useStyles();
+        return(
+            <Dialog open={open} onClose={handleClose} PaperProps={{style: {maxWidth: '500px', padding: '20px',
+            borderRadius: '8px', boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.2)',},}}
+            style={{display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
+            classes={{ paper: classes.dialogPaper }}>
+                <Box mb={2}>
+                <DialogTitle className={classes.dialogTitle}>Assign Staff</DialogTitle>
+                </Box>
+                <DialogContent className={classes.dialogContent}>
+                <Box mb={2}>
+                    <Autocomplete
+                        options={staffList}
+                        getOptionLabel={(option) =>
+                            option.firstName + ' ' + option.lastName
+                        }
+                        onChange={(event, newValue) => {
+                            setSelectedStaff(newValue);
+                        }}
+                        renderInput={(params) => (
+                            <TextField {...params} label="Staff" variant="outlined"/>
+                        )}
+                    />
+                </Box>
+                </DialogContent>
+                <DialogActions className={classes.dialogActions}>
+                    <Button onClick={handleClose} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={assignStaff} color="primary">
+                        Assign
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+    ); };
+
+
     const handleShowComments = () => {
         setShowComments(!showComments);
     };
@@ -162,15 +232,17 @@ const ServiceRequestTable = () => {
 
     return (
         <div>
-            <Typography variant="h4" component="h1">
+            <Typography variant="h4" component="h1" style={{ textAlign: 'center' }}>
                 Service Requests
             </Typography>
+            <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
             <TextField
-                label="Filter by Email"
+                label="Find by Email"
                 variant="outlined"
                 value={filter}
                 onChange={handleFilterChange}
             />
+            </div>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -197,31 +269,7 @@ const ServiceRequestTable = () => {
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Assign Staff</DialogTitle>
-                <DialogContent>
-                    <Autocomplete
-                        options={staffList}
-                        getOptionLabel={(option) =>
-                            option.firstName + ' ' + option.lastName
-                        }
-                        onChange={(event, newValue) => {
-                            setSelectedStaff(newValue);
-                        }}
-                        renderInput={(params) => (
-                            <TextField {...params} label="Staff" variant="outlined"/>
-                        )}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
-                        Cancel
-                    </Button>
-                    <Button onClick={assignStaff} color="primary">
-                        Assign
-                    </Button>
-                </DialogActions>
-            </Dialog>
+        <MyDialog />
         </div>
     );
 };

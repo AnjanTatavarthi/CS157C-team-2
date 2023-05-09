@@ -16,6 +16,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import EventIcon from '@mui/icons-material/Event';
 import {Email} from '@mui/icons-material';
 import Rating from '@mui/material/Rating';
+import Chip from '@mui/material/Chip';
 
 const TabPanel = ({children, value, index}) => {
     return <div role="tabpanel" hidden={value !== index}>{value === index && <Box p={3}>{children}</Box>}</div>;
@@ -28,6 +29,25 @@ const AdminBookingTable = () => {
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
+
+
+    const currentDate = new Date();
+
+    const updated_bookings = bookings.map(booking => {
+
+        const [year, month, day] = booking.bookingDate.split('-');
+        const bookingDate = new Date(year, month, day, 0, 0, 0, 0);
+
+        let isGreaterThanOrEqual;
+        if (currentDate.getMonth() <= bookingDate.getMonth() && currentDate.getDate() <= bookingDate.getDate() + 1
+            && currentDate.getFullYear() <= bookingDate.getFullYear()) {
+            isGreaterThanOrEqual = true;
+        } else {
+            isGreaterThanOrEqual = false;
+        }
+        booking.upcoming = isGreaterThanOrEqual;
+        return booking;
+    });
 
     const handleRatingChange = (bookingId, newRating) => {
         // Make API request to update the rating for the booking with the bookingId
@@ -118,13 +138,16 @@ const AdminBookingTable = () => {
                                 <TableCell>Booking Time</TableCell>
                                 <TableCell>Amenity Name</TableCell>
                                 <TableCell>Rating</TableCell>
+                                <TableCell>Booking Status</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {bookings.map(booking => (
+                            {updated_bookings.filter((booking) => {
+                                return booking.upcoming === true
+                            }).sort((a, b) => new Date(a.bookingDate) - new Date(b.bookingDate)).map(booking => (
                                 <TableRow key={booking.bookingId}>
-                                    <TableCell>{booking.bookingId}</TableCell>
+                                    <TableCell>{booking.bookingId.slice(0, 5)}</TableCell>
                                     <TableCell>
                                         <div style={{display: 'flex', alignItems: 'center'}}>
                                             <Email sx={{marginRight: '0.5rem'}}/>
@@ -157,6 +180,14 @@ const AdminBookingTable = () => {
                                         />
                                     </TableCell>
                                     <TableCell>
+                                        {booking.canceled === false && (
+                                            <Chip label="Confirmed" color="success"/>
+                                        )}
+                                        {booking.canceled === true && (
+                                            <Chip label="Cancelled" color="warning"/>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
                                         <Button
                                             key={booking.bookingId}
                                             variant="contained"
@@ -168,6 +199,71 @@ const AdminBookingTable = () => {
                                         >
                                             Cancel
                                         </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Booking ID</TableCell>
+                                <TableCell>User Email</TableCell>
+                                <TableCell>Booking Date</TableCell>
+                                <TableCell>Booking Time</TableCell>
+                                <TableCell>Amenity Name</TableCell>
+                                <TableCell>Rating</TableCell>
+                                <TableCell>Booking Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {updated_bookings.filter((booking) => {
+                                return booking.upcoming === false
+                            }).sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate)).map(booking => (
+                                <TableRow key={booking.bookingId}>
+                                    <TableCell>{booking?.bookingId?.slice(0, 5)}</TableCell>
+                                    <TableCell>
+                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                            <Email sx={{marginRight: '0.5rem'}}/>
+                                            <span>{booking.userEmail}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                            <EventIcon sx={{marginRight: '0.5rem'}}/>
+                                            <span>{booking.bookingDate}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        {booking.bookingTime.map(time => (
+                                            <div
+                                                key={time}
+                                                style={{display: 'flex', alignItems: 'center'}}
+                                            >
+                                                <AccessTimeIcon sx={{marginRight: '0.5rem'}}/>
+                                                <span>{time}</span>
+                                            </div>
+                                        ))}
+                                    </TableCell>
+                                    <TableCell>{booking.amenityName}</TableCell>
+                                    <TableCell>
+                                        <Rating
+                                            name={`rating-${booking.bookingId}`}
+                                            value={booking.rating}
+                                            onChange={(event, newRating) => handleRatingChange(booking.bookingId, newRating)}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        {booking.canceled === false && (
+                                            <Chip label="Confirmed" color="success"/>
+                                        )}
+                                        {booking.canceled === true && (
+                                            <Chip label="Cancelled" color="warning"/>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
