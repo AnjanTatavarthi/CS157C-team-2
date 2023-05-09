@@ -137,7 +137,6 @@ const AdminBookingTable = () => {
                                 <TableCell>Booking Date</TableCell>
                                 <TableCell>Booking Time</TableCell>
                                 <TableCell>Amenity Name</TableCell>
-                                <TableCell>Rating</TableCell>
                                 <TableCell>Booking Status</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
@@ -172,13 +171,6 @@ const AdminBookingTable = () => {
                                         ))}
                                     </TableCell>
                                     <TableCell>{booking.amenityName}</TableCell>
-                                    <TableCell>
-                                        <Rating
-                                            name={`rating-${booking.bookingId}`}
-                                            value={booking.rating}
-                                            onChange={(event, newRating) => handleRatingChange(booking.bookingId, newRating)}
-                                        />
-                                    </TableCell>
                                     <TableCell>
                                         {booking.canceled === false && (
                                             <Chip label="Confirmed" color="success"/>
@@ -216,7 +208,6 @@ const AdminBookingTable = () => {
                                 <TableCell>Booking Date</TableCell>
                                 <TableCell>Booking Time</TableCell>
                                 <TableCell>Amenity Name</TableCell>
-                                <TableCell>Rating</TableCell>
                                 <TableCell>Booking Status</TableCell>
                             </TableRow>
                         </TableHead>
@@ -250,13 +241,6 @@ const AdminBookingTable = () => {
                                         ))}
                                     </TableCell>
                                     <TableCell>{booking.amenityName}</TableCell>
-                                    <TableCell>
-                                        <Rating
-                                            name={`rating-${booking.bookingId}`}
-                                            value={booking.rating}
-                                            onChange={(event, newRating) => handleRatingChange(booking.bookingId, newRating)}
-                                        />
-                                    </TableCell>
                                     <TableCell>
                                         {booking.canceled === false && (
                                             <Chip label="Confirmed" color="success"/>

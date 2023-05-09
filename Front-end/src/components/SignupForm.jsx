@@ -88,9 +88,10 @@ const SignupForm = ({setAuth}) => {
                 dateOfBirth: form_values.dateOfBirth
             }).then((response) => {
                 console.log(form_values)
-                setAuth(true);
-                navigate(login, {replace: true});
-                localStorage.setItem("user", JSON.stringify(response.data))
+                // setAuth(true);
+                localStorage.clear();
+                navigate("/login", {replace: true});
+                // localStorage.setItem("user", JSON.stringify(response.data))
             }).catch(() => {
             });
         },

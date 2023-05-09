@@ -29,11 +29,6 @@ export default function AmenityCard(props: AmenityCardProps) {
     return (
         <Card sx={{maxWidth: 345}}>
             <CardHeader
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon/>
-                    </IconButton>
-                }
                 title={props.name}
             />
             <CardMedia
@@ -43,13 +38,13 @@ export default function AmenityCard(props: AmenityCardProps) {
                 alt={props.name}
             />
 
-            <CardContent>
+            <CardContent sx={{minHeight: 150}}>
                 <Typography variant="body2" color="text.secondary">
                     {props.description}
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing sx={{justifyContent: 'center'}}>
+            <CardActions disableSpacing sx={{justifyContent: 'center', mb:2}}>
                 <Button variant="contained" color="primary" endIcon={<SendIcon/>}
                         onClick={() => navigate(`/${user.role}/amenities/${props.amenityId}`, {replace: true})}>
                     Create Booking

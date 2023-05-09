@@ -26,7 +26,7 @@ export default function Amenities() {
     return (
         <Grid container spacing={2}>
             {amenities.map((amenity) => (
-                <Grid key={amenity.amenityId} item xs={12} sm={6} md={4} lg={3}>
+                <Grid key={amenity.amenityId} item xs={12} sm={6} md={4} lg={2.5}>
                     <AmenityCard {...amenity} />
                 </Grid>
             ))}

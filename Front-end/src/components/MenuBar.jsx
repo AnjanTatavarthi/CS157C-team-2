@@ -72,12 +72,6 @@ export default function MenuBar(props) {
                         </ListItemButton>
                     ))}
                     <Divider sx={{my: 1}}/>
-                    {props.secondaryMenuItems.map((item) => (
-                        <ListItemButton key={item.label} selected={location.pathname === item.path}>
-                            <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText primary={item.label}/>
-                        </ListItemButton>
-                    ))}
                 </List>
             </List>
         </Drawer>
