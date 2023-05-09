@@ -16,9 +16,10 @@ import ServiceRequestTable from "./pages/Admin/ServiceRequestTable";
 import Staff from "./pages/Staff/Staff";
 import Guest from "./pages/Guest/Guest";
 import StaffServiceRequestTable from "./pages/Staff/StaffServiceRequestTable";
-import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequestTable";
+import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequest";
 import BookingConfirmationCard from "./components/BookingConfirmationCard";
 import GuestAmenityBookingForm from "./pages/Guest/GuestAmenityBookingForm";
+import GuestServiceRequest from "./pages/Guest/GuestServiceRequest";
 
 
 function App() {
@@ -60,7 +61,7 @@ function App() {
                 {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
                 <Route path="/guest/bookings" element={<Guest component={<BookingTable/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/servicerequests"
-                       element={<Guest component={<GuestServiceRequestTable/>} setAuth={setAuth}/>}/>
+                       element={<Guest component={<GuestServiceRequest/>} setAuth={setAuth}/>}/>
                 <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
 
                 <Route path="/guest/amenities/:amenityId"

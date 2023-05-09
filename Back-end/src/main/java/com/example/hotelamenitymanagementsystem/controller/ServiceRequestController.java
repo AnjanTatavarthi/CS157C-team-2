@@ -127,10 +127,17 @@ public class ServiceRequestController {
 
 
 
-//
-//    @DeleteMapping
-//    public ResponseEntity<Void> deleteAll(HttpServletRequest request) {
-//        repo.deleteAll();
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+
+    @DeleteMapping("/{service_request_id}")
+    public ResponseEntity<ServiceRequest> delete(
+            @PathVariable("service_request_id") String serviceRequestId
+    ) {
+        Optional<ServiceRequestEntity> optionalServiceRequestEntity = repo.findById(UUID.fromString(serviceRequestId));
+        if (optionalServiceRequestEntity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        repo.deleteById(UUID.fromString(serviceRequestId));
+        return ResponseEntity.noContent().build();
+    }
+
 }
