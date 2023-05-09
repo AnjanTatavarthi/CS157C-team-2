@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+import static com.example.hotelamenitymanagementsystem.utils.UserUtils.hashPassword;
 import static com.example.hotelamenitymanagementsystem.utils.UserUtils.mapAsUserEntity;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -44,8 +45,9 @@ public class RegistrationController {
                     .build();
             return ResponseEntity.ok(registrationResponse);
         } else {
-            System.out.println("Registering user: "+user);
+            System.out.println("Registering user: " + user);
             UserEntity newUserEntity = mapAsUserEntity(user);
+            newUserEntity.setPassword(hashPassword(user.getPassword()));
             repo.save(newUserEntity);
             RegistrationResponse registrationResponse = RegistrationResponse.builder()
                     .success(true)

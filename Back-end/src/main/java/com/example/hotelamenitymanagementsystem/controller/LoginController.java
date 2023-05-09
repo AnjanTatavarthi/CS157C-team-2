@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 
+import static com.example.hotelamenitymanagementsystem.utils.UserUtils.hashPassword;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 
@@ -39,15 +40,15 @@ public class LoginController {
             throws URISyntaxException {
 
         Optional<UserEntity> user = repo.findById(loginRequest.getEmail());
-        System.out.println("Printing: "+user);
+        System.out.println("Printing: " + user);
 
         LoginResponse loginResponse = LoginResponse.builder()
                 .success(false)
                 .build();
 
-        if (user.isPresent() && Objects.equals(user.get().getPassword(), loginRequest.getPassword())) {
+        if (user.isPresent() && Objects.equals(user.get().getPassword(), hashPassword(loginRequest.getPassword()))) {
             UserEntity userEntity = user.get();
-            System.out.println("Printing: "+userEntity.getFirstName());
+            System.out.println("Printing: " + userEntity.getFirstName());
             loginResponse = LoginResponse.builder()
                     .firstName(userEntity.getFirstName())
                     .lastName(userEntity.getLastName())
