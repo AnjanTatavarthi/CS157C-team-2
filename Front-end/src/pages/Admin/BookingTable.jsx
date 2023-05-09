@@ -11,6 +11,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import backend from "../../utils/config";
+import BookingIcon from "@mui/icons-material/EventAvailable";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EventIcon from '@mui/icons-material/Event';
+import {Email} from "@mui/icons-material";
 
 
 const TabPanel = ({children, value, index}) => {
@@ -95,9 +99,30 @@ const AdminBookingTable = () => {
                             {bookings.map((booking) => (
                                 <TableRow key={booking.bookingId}>
                                     <TableCell>{booking.bookingId}</TableCell>
-                                    <TableCell>{booking.userEmail}</TableCell>
-                                    <TableCell>{booking.bookingDate}</TableCell>
-                                    <TableCell>{booking.bookingTime}</TableCell>
+                                    <TableCell>
+
+                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                            <Email sx={{marginRight: '0.5rem'}}/>
+                                            <span>{booking.userEmail}</span>
+                                        </div>
+
+                                    </TableCell>
+                                    <TableCell>
+                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                            <EventIcon sx={{marginRight: '0.5rem'}}/>
+                                            <span>{booking.bookingDate}</span>
+                                        </div>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        {booking.bookingTime.map((time) => (
+                                            <div key={time} style={{display: 'flex', alignItems: 'center'}}>
+                                                <AccessTimeIcon sx={{marginRight: '0.5rem'}}/>
+                                                <span>{time}</span>
+                                            </div>
+                                        ))}
+                                    </TableCell>
+
                                     <TableCell>{booking.amenityName}</TableCell>
                                     <TableCell>
                                         <Button key={booking.bookingId} variant="contained" color="secondary"

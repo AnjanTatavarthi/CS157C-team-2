@@ -18,7 +18,8 @@ interface AmenityCardProps {
     location: string;
     name: string;
     openHours: string;
-    status: boolean
+    status: boolean;
+    imageUrl: string;
 }
 
 export default function AmenityCard(props: AmenityCardProps) {
@@ -28,31 +29,23 @@ export default function AmenityCard(props: AmenityCardProps) {
     return (
         <Card sx={{maxWidth: 345}}>
             <CardHeader
-                // avatar={
-                //     <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
-                //         R
-                //     </Avatar>
-                // }
                 action={
                     <IconButton aria-label="settings">
                         <MoreVertIcon/>
                     </IconButton>
                 }
                 title={props.name}
-                subheader="September 14, 2016"
             />
             <CardMedia
                 component="img"
                 height="194"
-                image="/static/slideshow_images/jacuzzi.webp"
+                image={props.imageUrl}
                 alt={props.name}
             />
 
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun meal to cook
-                    together with your guests. Add 1 cup of frozen peas along with the mussels,
-                    if you like.
+                    {props.description}
                 </Typography>
             </CardContent>
 

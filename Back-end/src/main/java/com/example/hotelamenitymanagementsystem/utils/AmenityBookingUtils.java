@@ -22,6 +22,7 @@ public class AmenityBookingUtils {
                 .bookingId(amenityBookingEntity.getBookingId().toString())
                 .amenityName(amenityBookingEntity.getAmenityName())
                 .canceled(amenityBookingEntity.getCanceled())
+                .amenityName(amenityBookingEntity.getAmenityName())
                 .build();
     }
 
@@ -34,6 +35,7 @@ public class AmenityBookingUtils {
                 .bookingId(amenityBookingEntity.getBookingId().toString())
                 .amenityName(amenityBookingEntity.getAmenityName())
                 .canceled(amenityBookingEntity.getCanceled())
+                .amenityName(amenityBookingEntity.getAmenityName())
                 .build();
     }
 
@@ -46,6 +48,7 @@ public class AmenityBookingUtils {
                 .userEmail(amenityBooking.getUserEmail())
                 .bookingId(amenityBooking.getBookingId() != null ? UUID.fromString(amenityBooking.getBookingId()) : Uuids.random())
                 .canceled(amenityBooking.getCanceled() != null ? amenityBooking.getCanceled() : Boolean.FALSE)
+                .amenityName(amenityBooking.getAmenityName())
                 .build();
     }
 
@@ -58,6 +61,7 @@ public class AmenityBookingUtils {
                 .userEmail(amenityBooking.getUserEmail())
                 .bookingId(amenityBooking.getBookingId() != null ? UUID.fromString(amenityBooking.getBookingId()) : Uuids.random())
                 .canceled(amenityBooking.getCanceled() != null ? amenityBooking.getCanceled() : Boolean.FALSE)
+                .amenityName(amenityBooking.getAmenityName())
                 .build();
     }
 
@@ -70,6 +74,7 @@ public class AmenityBookingUtils {
                 .userEmail(amenityBookingById.getUserEmail())
                 .bookingId(amenityBookingById.getBookingId())
                 .canceled(amenityBookingById.getCanceled())
+                .amenityName(amenityBookingById.getAmenityName())
                 .build();
     }
 }

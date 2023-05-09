@@ -67,14 +67,15 @@ public class AmenityBookingRestController {
                 .stream().map(AmenityBookingUtils::mapAsAmenityBooking);
     }
 
-    @GetMapping("/{amenity_booking_id}")
+    @GetMapping("/booking_info/{email}/{amenity_booking_id}")
     public ResponseEntity<AmenityBooking> findById(HttpServletRequest req,
+                                                   @PathVariable(value = "email") String email,
                                                    @PathVariable(value = "amenity_booking_id") UUID amenity_booking_id) {
-        Optional<AmenityBookingEntityById> e = repoById.findById(amenity_booking_id);
+        List<AmenityBookingEntityById> e = repoById.findByEmail(email);
         if (e.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(AmenityBookingUtils.mapAsAmenityBooking(e.get()));
+        return ResponseEntity.ok(AmenityBookingUtils.mapAsAmenityBooking(e.stream().findFirst().get()));
     }
 
     @GetMapping("/{amenity_id}/{booking_date}")

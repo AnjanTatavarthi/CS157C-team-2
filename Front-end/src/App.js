@@ -64,9 +64,9 @@ function App() {
                 <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
 
                 <Route path="/guest/amenities/:amenityId"
-                       element={<Guest component={<GuestAmenityBookingForm/>} setAuth={setAuth}/>}/>
-              <Route path="/guest/amenities/booking-confirmation/:booking_id"
-              element={<Guest component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
+                       element={<Guest component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
+                <Route path="/guest/amenities/booking-confirmation/:booking_id"
+                       element={<Guest component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
 
 
                 {/* <Route path="/admin/amenities/:amenityId" */}

@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Timeslots from './Timeslots';
 import backend from "../utils/config";
 import {useNavigate, useParams} from "react-router-dom";
+import {Typography} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +46,7 @@ function AmenityBookingForm() {
     useEffect(() => {
         backend.get(`amenities/${amenityId}`)
             .then(response => {
+                console.log("Amenity Name:" + response.data.name);
                 setAmenityName(response.data.name);
             })
             .catch(error => {
@@ -87,11 +89,11 @@ function AmenityBookingForm() {
 
     return (
         <div className={classes.root}>
+            <Typography>AmenityName: {amenityName}</Typography>
             <div className={classes.form}>
                 <TextField
                     fullWidth
                     variant="outlined"
-
                     type="date"
                     id="date"
                     name="date"
