@@ -97,15 +97,7 @@ export default function CustomPaginationActionsTable() {
         setPage(0);
     };
 
-    const [bookings, setBookings] = useState([
-        [{
-            bookingId: "3edcbc47-37e2-4eb1-be2e-c9cda2d73a22",
-            userEmail: "anjan1@example.com",
-            bookingDate: "2023-05-02",
-            bookingTime: "12:30:00",
-            amenityId: "123344"
-        }]
-    ]);
+    const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
         // Make API request to retrieve user data

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.stream.Collectors;
 
 
@@ -69,18 +70,17 @@ public class UserRestController {
     @GetMapping("/staff")
     public Stream<User> findAllStaff(HttpServletRequest req) {
         return repo.findAll().stream()
-            .map(userEntity -> {
-                String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
-                String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
-                String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
-                String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
-                LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
-                String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
-                return new User(firstName, lastName, dateOfBirth, password, email,  role);
-            })
+                .map(userEntity -> {
+                    String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
+                    String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
+                    String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
+                    String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
+                    LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
+                    String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
+                })
                 .filter(userEntity -> userEntity.getRole().equals("staff"));
     }
-
 
 
     @GetMapping("/guest")
@@ -93,7 +93,7 @@ public class UserRestController {
                     String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
                     LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
                     String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
-                    return new User(firstName, lastName, dateOfBirth, password, email,  role);
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
                 })
                 .filter(userEntity -> userEntity.getRole().equals("guest"));
     }
@@ -109,7 +109,7 @@ public class UserRestController {
                     String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
                     LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
                     String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
-                    return new User(firstName, lastName, dateOfBirth, password, email,  role);
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
                 })
                 .filter(userEntity -> userEntity.getRole().equals("admin"));
     }

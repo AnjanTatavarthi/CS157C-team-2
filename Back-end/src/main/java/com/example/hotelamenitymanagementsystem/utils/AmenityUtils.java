@@ -2,10 +2,10 @@ package com.example.hotelamenitymanagementsystem.utils;
 
 import com.example.hotelamenitymanagementsystem.Entity.AmenityEntity;
 import com.example.hotelamenitymanagementsystem.object.Amenity;
+
 import java.util.UUID;
 
 public class AmenityUtils {
-
     private AmenityUtils() {
         throw new IllegalStateException("Utility class");
     }
@@ -17,7 +17,8 @@ public class AmenityUtils {
                 amenityEntity.getDescription(),
                 amenityEntity.getLocation(),
                 amenityEntity.getOpenHours(),
-                amenityEntity.getStatus()
+                amenityEntity.getStatus(),
+                amenityEntity.getImageUrl()
         );
     }
 
@@ -29,6 +30,7 @@ public class AmenityUtils {
         amenityEntity.setLocation(amenity.getLocation());
         amenityEntity.setOpenHours(amenity.getOpenHours());
         amenityEntity.setStatus(amenity.getStatus());
+        amenityEntity.setImageUrl(amenity.getImageUrl());
         return amenityEntity;
     }
 }

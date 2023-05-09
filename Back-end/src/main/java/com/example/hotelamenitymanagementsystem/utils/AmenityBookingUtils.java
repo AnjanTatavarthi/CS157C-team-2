@@ -20,6 +20,8 @@ public class AmenityBookingUtils {
                 .bookingTime(amenityBookingEntity.getBookingTime())
                 .userEmail(amenityBookingEntity.getUserEmail())
                 .bookingId(amenityBookingEntity.getBookingId().toString())
+                .amenityName(amenityBookingEntity.getAmenityName())
+                .canceled(amenityBookingEntity.getCanceled())
                 .build();
     }
 
@@ -30,37 +32,44 @@ public class AmenityBookingUtils {
                 .bookingTime(amenityBookingEntity.getBookingTime())
                 .userEmail(amenityBookingEntity.getUserEmail())
                 .bookingId(amenityBookingEntity.getBookingId().toString())
+                .amenityName(amenityBookingEntity.getAmenityName())
+                .canceled(amenityBookingEntity.getCanceled())
                 .build();
     }
 
     public static AmenityBookingEntityById mapAsAmenityBookingEntityId(AmenityBooking amenityBooking) {
         return AmenityBookingEntityById.builder()
                 .amenityId(amenityBooking.getAmenityId())
+                .amenityName(amenityBooking.getAmenityName())
                 .bookingDate(amenityBooking.getBookingDate())
                 .bookingTime(amenityBooking.getBookingTime())
                 .userEmail(amenityBooking.getUserEmail())
                 .bookingId(amenityBooking.getBookingId() != null ? UUID.fromString(amenityBooking.getBookingId()) : Uuids.random())
+                .canceled(amenityBooking.getCanceled() != null ? amenityBooking.getCanceled() : Boolean.FALSE)
                 .build();
     }
 
     public static AmenityBookingEntity mapAsAmenityBookingEntity(AmenityBooking amenityBooking) {
         return AmenityBookingEntity.builder()
                 .amenityId(amenityBooking.getAmenityId())
+                .amenityName(amenityBooking.getAmenityName())
                 .bookingDate(amenityBooking.getBookingDate())
                 .bookingTime(amenityBooking.getBookingTime())
                 .userEmail(amenityBooking.getUserEmail())
                 .bookingId(amenityBooking.getBookingId() != null ? UUID.fromString(amenityBooking.getBookingId()) : Uuids.random())
+                .canceled(amenityBooking.getCanceled() != null ? amenityBooking.getCanceled() : Boolean.FALSE)
                 .build();
     }
 
-
-    public static AmenityBookingEntity convertToBookingEntity(AmenityBookingEntityById amenityBooking) {
+    public static AmenityBookingEntity convertToBookingEntity(AmenityBookingEntityById amenityBookingById) {
         return AmenityBookingEntity.builder()
-                .amenityId(amenityBooking.getAmenityId())
-                .bookingDate(amenityBooking.getBookingDate())
-                .bookingTime(amenityBooking.getBookingTime())
-                .userEmail(amenityBooking.getUserEmail())
-                .bookingId(amenityBooking.getBookingId())
+                .amenityId(amenityBookingById.getAmenityId())
+                .amenityName(amenityBookingById.getAmenityName())
+                .bookingDate(amenityBookingById.getBookingDate())
+                .bookingTime(amenityBookingById.getBookingTime())
+                .userEmail(amenityBookingById.getUserEmail())
+                .bookingId(amenityBookingById.getBookingId())
+                .canceled(amenityBookingById.getCanceled())
                 .build();
     }
 }

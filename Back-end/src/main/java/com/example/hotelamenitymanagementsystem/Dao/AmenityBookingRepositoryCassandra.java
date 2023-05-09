@@ -17,7 +17,12 @@ import java.util.UUID;
  */
 @Repository
 public interface AmenityBookingRepositoryCassandra extends CassandraRepository<AmenityBookingEntity, UUID> {
-
-    @Query("SELECT * FROM bookings WHERE amenity_id = ?0 AND booking_date = ?1")
+    @Query("SELECT * FROM bookings WHERE amenity_id = ?0 AND booking_date = ?1 AND canceled = false")
     List<AmenityBookingEntity> findByAmenityIdAndBookingDate(String amenityId, LocalDate bookingDate);
+
+    @Query("SELECT * FROM bookings WHERE canceled = true")
+    List<AmenityBookingEntity> getCanceledBookings();
+
+    @Query("SELECT * FROM bookings WHERE canceled = false")
+    List<AmenityBookingEntity> getConfirmedBooking();
 }

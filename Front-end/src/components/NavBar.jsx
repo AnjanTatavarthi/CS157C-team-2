@@ -83,7 +83,7 @@ export default function Navbar(props: NavbarProps) {
                     noWrap
                     sx={{flexGrow: 1}}
                 >
-                    Amenity Hub
+                    AmenityHub
                 </Typography>
 
                 {/* <Typography color="inherit" variant="subtitle1" sx={{mr: 0.5}}>

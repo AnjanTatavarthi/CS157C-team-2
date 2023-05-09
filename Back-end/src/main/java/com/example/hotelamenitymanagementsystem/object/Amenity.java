@@ -15,6 +15,7 @@ public class Amenity {
     private String location;
     private String openHours;
     private Boolean status;
+    private String imageUrl;
 }
 
 

@@ -3,8 +3,9 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import GuestTable from './GuestTable';
-import StaffTable from '../Admin/StaffTable';
-import AdminTable from './AdminTable';
+import StaffTable from './StaffTable';
+import AdminTable from "./AdminTable";
+
 
 const TabPanel = ({children, value, index}) => {
     return <div role="tabpanel" hidden={value !== index}>{value === index && <Box p={3}>{children}</Box>}</div>;

@@ -1,6 +1,6 @@
 import React from "react";
 import {Link as RouterLink} from "react-router-dom";
-import {Box, Container, Link, Typography} from "@mui/material";
+import {AppBar, Box, Button, Container, Link, Toolbar, Typography} from "@mui/material";
 import styled from "@emotion/styled";
 import LoginForm from "../components/LoginForm";
 import {motion} from "framer-motion";
@@ -46,31 +46,44 @@ const fadeInUp = {
 const Login = ({setAuth}) => {
 
     return (
-        <RootStyle>
-            <Container maxWidth="sm">
-                <ContentStyle>
-                    <HeadingStyle component={motion.div} {...fadeInUp}>
-                        {/*<Logo />*/}
-                        <Typography sx={{color: "text.primary", mb: 5}}>
-                            Login
-                        </Typography>
-                    </HeadingStyle>
-                    <LoginForm setAuth={setAuth}/>
-                    <Typography
-                        component={motion.p}
-                        {...fadeInUp}
-                        variant="body2"
-                        align="center"
-                        sx={{mt: 3}}
-                    >
-                        Don’t have an account?{" "}
-                        <Link variant="subtitle2" component={RouterLink} to="/signup">
-                            Sign up
-                        </Link>
+        <div>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        AmenityHub
                     </Typography>
-                </ContentStyle>
-            </Container>
-        </RootStyle>
+                    <Button color="inherit" href="/signup">Sign Up</Button>
+                    <Button color="inherit" href="/login">Log In</Button>
+                </Toolbar>
+            </AppBar>
+            <RootStyle>
+
+                <Container maxWidth="sm">
+                    <ContentStyle>
+                        <HeadingStyle component={motion.div} {...fadeInUp}>
+                            {/*<Logo />*/}
+                            <Typography sx={{color: "text.primary", mb: 5}}>
+                                Login
+                            </Typography>
+                        </HeadingStyle>
+                        <LoginForm setAuth={setAuth}/>
+                        <Typography
+                            component={motion.p}
+                            {...fadeInUp}
+                            variant="body2"
+                            align="center"
+                            sx={{mt: 3}}
+                        >
+                            Don’t have an account?{" "}
+                            <Link variant="subtitle2" component={RouterLink} to="/signup">
+                                Sign up
+                            </Link>
+                        </Typography>
+                    </ContentStyle>
+                </Container>
+            </RootStyle>
+        </div>
+
     );
 };
 

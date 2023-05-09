@@ -20,5 +20,7 @@ public class AmenityBooking {
     private LocalDate bookingDate;
     private List<LocalTime> bookingTime;
     private String amenityId;
+    private String amenityName;
+    private Boolean canceled;
 }
 

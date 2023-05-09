@@ -12,25 +12,39 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import backend from "../../utils/config";
 
+
 const TabPanel = ({children, value, index}) => {
     return <div role="tabpanel" hidden={value !== index}>{value === index && <Box p={3}>{children}</Box>}</div>;
 };
 
-const BookingTable = () => {
+const AdminBookingTable = () => {
     const [tabValue, setTabValue] = React.useState(0);
     const [bookings, setBookings] = useState([]);
+
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
 
-    const cancelBooking = (bookingId) => {
+    const cancelBooking = (userEmail, bookingId) => {
+        console.log("Cancelling Bookings")
         // Make API request to cancel the booking
-        backend.delete(`/amenityBookings/${bookingId}`)
+        backend.delete(`/amenityBookings/${userEmail}/${bookingId}`)
             .then(response => {
                 console.log(response);
-                // Remove the cancelled booking from the state
-                setBookings(bookings.filter(booking => booking.bookingId !== bookingId));
+                // Update the bookings state to reflect the cancellation
+                setBookings(prevBookings => {
+                    const updatedBookings = prevBookings.map(booking => {
+                        if (booking.bookingId === bookingId) {
+                            return {
+                                ...booking,
+                                canceled: true // Assuming there is a 'canceled' property in the booking object
+                            };
+                        }
+                        return booking;
+                    });
+                    return updatedBookings;
+                });
             })
             .catch(error => {
                 console.error(error);
@@ -39,7 +53,14 @@ const BookingTable = () => {
 
     useEffect(() => {
         // Make API request to retrieve bookings data
-        backend.get('/amenityBookings')
+
+        var user = JSON.parse(localStorage.getItem("user"))
+        var URL = "/amenityBookings";
+        if (user.role === "guest") {
+            URL = "/amenityBookings/guest-email/" + user.email;
+        }
+        console.log(URL)
+        backend.get(URL)
             .then(response => {
                 console.log(response);
                 // Update state with bookings data
@@ -57,7 +78,6 @@ const BookingTable = () => {
                 <Tab label="Upcoming Bookings"/>
                 <Tab label="Past Bookings"/>
             </Tabs>
-
             <TabPanel value={tabValue} index={0}>
                 <TableContainer component={Paper}>
                     <Table>
@@ -67,7 +87,7 @@ const BookingTable = () => {
                                 <TableCell>User Email</TableCell>
                                 <TableCell>Booking Date</TableCell>
                                 <TableCell>Booking Time</TableCell>
-                                <TableCell>Amenity ID</TableCell>
+                                <TableCell>Amenity Name</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -78,10 +98,11 @@ const BookingTable = () => {
                                     <TableCell>{booking.userEmail}</TableCell>
                                     <TableCell>{booking.bookingDate}</TableCell>
                                     <TableCell>{booking.bookingTime}</TableCell>
-                                    <TableCell>{booking.amenityId}</TableCell>
+                                    <TableCell>{booking.amenityName}</TableCell>
                                     <TableCell>
-                                        <Button variant="contained" color="secondary"
-                                                onClick={() => cancelBooking(booking.bookingId)}>
+                                        <Button key={booking.bookingId} variant="contained" color="secondary"
+                                                disabled={booking.canceled}
+                                                onClick={() => cancelBooking(booking.userEmail, booking.bookingId)}>
                                             Cancel
                                         </Button>
                                     </TableCell>
@@ -91,9 +112,9 @@ const BookingTable = () => {
                     </Table>
                 </TableContainer>
             </TabPanel>
-            {/* Add TabPanel components for Staff and Admin */}
+
         </div>
     );
 };
 
-export default BookingTable;
+export default AdminBookingTable;

@@ -4,10 +4,8 @@ import {Route, Routes, useLocation} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LandingPage from "./components/LandingPage";
-import PeopleTable from "./pages/Admin/PeopleTable";
 import Carousals from "./components/Carousels";
 import Admin from "./pages/Admin/Admin";
-// import BookingTable from "./pages/Admin/BookingTable";
 import BookingTable from "./components/BookingTable";
 import Amenities from "./components/Amenities";
 import Profile from "./components/Profile";
@@ -16,10 +14,11 @@ import ServiceRequestTable from "./pages/Admin/ServiceRequestTable";
 import Staff from "./pages/Staff/Staff";
 import Guest from "./pages/Guest/Guest";
 import StaffServiceRequestTable from "./pages/Staff/StaffServiceRequestTable";
-import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequest";
+import GuestServiceRequest from "./pages/Guest/GuestServiceRequest";
 import BookingConfirmationCard from "./components/BookingConfirmationCard";
 import GuestAmenityBookingForm from "./pages/Guest/GuestAmenityBookingForm";
-import GuestServiceRequest from "./pages/Guest/GuestServiceRequest";
+import AdminBookingTable from "./pages/Admin/BookingTable";
+import PeopleTable from "./components/PeopleTable/PeopleTable";
 
 
 function App() {
@@ -36,7 +35,7 @@ function App() {
 
                 <Route path="/admin" element={<Admin component={<Carousals/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/>
+                <Route path="/admin/bookings" element={<Admin component={<AdminBookingTable/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/servicerequests"
                        element={<Admin component={<ServiceRequestTable/>} setAuth={setAuth}/>}/>
                 <Route path="/admin/amenities" element={<Admin component={<Amenities/>} setAuth={setAuth}/>}/>

@@ -6,7 +6,6 @@ import backend from "../utils/config";
 import {useEffect, useState} from "react";
 
 
-
 export default function Amenities() {
 
     const [amenities, setAmenities] = useState([]);
@@ -25,14 +24,12 @@ export default function Amenities() {
     }, []);
 
     return (
-
-            <Grid container spacing={2}>
-                {amenities.map((amenity) => (
-                    <Grid key={amenity.amenityId} item xs={12} sm={6} md={4} lg={3}>
-                        <AmenityCard {...amenity} />
-                    </Grid>
-                ))}
-            </Grid>
-
+        <Grid container spacing={2}>
+            {amenities.map((amenity) => (
+                <Grid key={amenity.amenityId} item xs={12} sm={6} md={4} lg={3}>
+                    <AmenityCard {...amenity} />
+                </Grid>
+            ))}
+        </Grid>
     );
 }

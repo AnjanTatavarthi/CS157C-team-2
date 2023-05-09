@@ -12,6 +12,21 @@ const slider = [
         "id": 2,
         "image": "/static/slideshow_images/pool.jpeg",
         "title": "Swimming Pool"
+    },
+    {
+        "id": 3,
+        "image": "/static/slideshow_images/gym.png",
+        "title": "Gym"
+    },
+    {
+        "id": 4,
+        "image": "/static/slideshow_images/movie_theater.png",
+        "title": "Movie Theater"
+    },
+    {
+        "id": 5,
+        "image": "/static/slideshow_images/study_hall.png",
+        "title": "Study Hall"
     }
 ]
 

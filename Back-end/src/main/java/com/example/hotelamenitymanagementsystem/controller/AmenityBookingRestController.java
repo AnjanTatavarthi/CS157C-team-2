@@ -5,9 +5,7 @@ import com.example.hotelamenitymanagementsystem.Dao.AmenityBookingRepositoryCass
 import com.example.hotelamenitymanagementsystem.Entity.AmenityBookingEntity;
 import com.example.hotelamenitymanagementsystem.Entity.AmenityBookingEntityById;
 import com.example.hotelamenitymanagementsystem.object.AmenityBooking;
-import com.example.hotelamenitymanagementsystem.object.ServiceRequest;
 import com.example.hotelamenitymanagementsystem.utils.AmenityBookingUtils;
-import com.example.hotelamenitymanagementsystem.utils.ServiceRequestUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,17 +44,28 @@ public class AmenityBookingRestController {
 
     @GetMapping
     public Stream<AmenityBooking> findAll(HttpServletRequest req) {
-        return repoById.findAll().stream()
+        return repo.findAll().stream()
+                .map(AmenityBookingUtils::mapAsAmenityBooking);
+    }
+
+    @GetMapping("/canceled")
+    public Stream<AmenityBooking> findCanceled(HttpServletRequest req) {
+        return repo.getCanceledBookings().stream()
+                .map(AmenityBookingUtils::mapAsAmenityBooking);
+
+    }
+
+    @GetMapping("/confirmed")
+    public Stream<AmenityBooking> findOpen(HttpServletRequest req) {
+        return repo.getConfirmedBooking().stream()
                 .map(AmenityBookingUtils::mapAsAmenityBooking);
     }
 
     @GetMapping("/guest-email/{guest_email}")
     public Stream<AmenityBooking> findByGuestEmail(HttpServletRequest req, @PathVariable(value = "guest_email") String guestEmail) {
-        return repo.findAll().stream()
-                .map(AmenityBookingUtils::mapAsAmenityBooking)
-                .filter(amenityBooking -> amenityBooking.getUserEmail().equals(guestEmail));
+        return repoById.findByEmail(guestEmail)
+                .stream().map(AmenityBookingUtils::mapAsAmenityBooking);
     }
-
 
     @GetMapping("/{amenity_booking_id}")
     public ResponseEntity<AmenityBooking> findById(HttpServletRequest req,
@@ -68,61 +77,39 @@ public class AmenityBookingRestController {
         return ResponseEntity.ok(AmenityBookingUtils.mapAsAmenityBooking(e.get()));
     }
 
-//    @GetMapping("/{amenity_booking_id}/{booking_date}")
-//    public Stream<AmenityBooking> findByIdAndDate(HttpServletRequest req,
-//                                                  @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
-//                                                  @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-//        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
-//        return amenityBookings.stream().map(AmenityBookingUtils::mapAsAmenityBooking);
-//    }
-
-//    @GetMapping("/{amenity_booking_id}/{booking_date}")
-//    public ResponseEntity<Stream<String>> getFilledTimeSlots(HttpServletRequest req,
-//                                                             @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
-//                                                             @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-//        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
-//        return ResponseEntity.ok(amenityBookings.stream().map(booking -> booking.getBookingTime().format(DateTimeFormatter.ofPattern("HH:mm"))));
-//    }
-
-    @GetMapping("/{amenity_booking_id}/{booking_date}")
+    @GetMapping("/{amenity_id}/{booking_date}")
     public ResponseEntity<Stream<String>> getFilledTimeSlots(HttpServletRequest req,
-                                                             @PathVariable(value = "amenity_booking_id") String amenity_booking_id,
+                                                             @PathVariable(value = "amenity_id") String amenity_id,
                                                              @PathVariable("booking_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_booking_id, date);
+        List<AmenityBookingEntity> amenityBookings = repo.findByAmenityIdAndBookingDate(amenity_id, date);
         Stream<String> formattedTimeSlots = amenityBookings.stream()
-                .flatMap(booking -> booking.getBookingTime().stream().map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm"))));
+                .flatMap(booking -> booking.getBookingTime()
+                        .stream()
+                        .map(time -> time.format(DateTimeFormatter.ofPattern("HH:mm"))));
         return ResponseEntity.ok(formattedTimeSlots);
     }
-
-
 
     @PostMapping
     public ResponseEntity<AmenityBooking> create(HttpServletRequest req, @RequestBody AmenityBooking amenityBooking)
             throws URISyntaxException {
-
         AmenityBookingEntityById amenityBookingEntity = AmenityBookingUtils.mapAsAmenityBookingEntityId(amenityBooking);
         amenityBooking.setBookingId(amenityBookingEntity.getBookingId().toString());
         AmenityBookingEntity amenityBookingEntity1 = AmenityBookingUtils.mapAsAmenityBookingEntity(amenityBooking);
-
         repoById.save(amenityBookingEntity);
         repo.save(amenityBookingEntity1);
-
         AmenityBooking amenityBookingSaved = AmenityBookingUtils.mapAsAmenityBooking(amenityBookingEntity);
         return ResponseEntity.ok(amenityBookingSaved);
     }
 
-    @DeleteMapping("/{amenityId}")
-    public ResponseEntity<Void> deleteAmenity(@PathVariable UUID amenityId) {
-        AmenityBookingEntity amenityBookingEntity = AmenityBookingUtils.convertToBookingEntity(repoById.findById(amenityId).get());
-        repo.delete(amenityBookingEntity);
-        repoById.deleteById(amenityId);
+    @DeleteMapping("/{user_email}/{booking_id}")
+    public ResponseEntity<Void> cancelBooking(@PathVariable String user_email, @PathVariable UUID booking_id) {
+        AmenityBookingEntityById amenityBookingEntityById = repoById.findByEmail(user_email).stream().filter(booking -> booking.getBookingId().equals(booking_id)).findFirst().get();
+        AmenityBookingEntity amenityBookingEntity = AmenityBookingUtils.convertToBookingEntity(amenityBookingEntityById);
+        amenityBookingEntity.setCanceled(Boolean.TRUE);
+        amenityBookingEntityById.setCanceled(Boolean.TRUE);
+        repo.save(amenityBookingEntity);
+        repoById.save(amenityBookingEntityById);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteAll(HttpServletRequest request) {
-        repo.deleteAll();
-        repoById.deleteAll();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

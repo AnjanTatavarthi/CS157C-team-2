@@ -52,4 +52,9 @@ public class AmenityEntity {
     @Column(COLUMN_STATUS)
     @CassandraType(type = Name.BOOLEAN)
     private Boolean status;
+
+    @Column(COLUMN_IMAGE_URL)
+    @CassandraType(type = Name.TEXT)
+    private String imageUrl;
+
 }

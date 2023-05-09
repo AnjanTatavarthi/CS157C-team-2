@@ -42,8 +42,8 @@ const BookingTable = () => {
 
         var user = JSON.parse(localStorage.getItem("user"))
         var URL = "/amenityBookings";
-        if(user.role=="guest"){
-            URL = "/amenityBookings/guest-email/"+user.email;
+        if (user.role === "guest") {
+            URL = "/amenityBookings/guest-email/" + user.email;
         }
         console.log(URL)
         backend.get(URL)

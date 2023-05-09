@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.CassandraType;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.cassandra.core.mapping.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,7 +25,8 @@ public class AmenityBookingEntity {
     public static final String COLUMN_BOOKING_DATE = "booking_date";
     public static final String COLUMN_BOOKING_TIME = "booking_time";
     public static final String COLUMN_AMENITY_ID = "amenity_id";
-
+    public static final String COLUMN_AMENITY_NAME = "amenity_name";
+    public static final String COLUMN_CANCELED = "canceled";
 
     @PrimaryKeyColumn(name = COLUMN_BOOKING_ID, ordinal = 2, type = PrimaryKeyType.CLUSTERED)
     @CassandraType(type = CassandraType.Name.UUID)
@@ -49,5 +47,14 @@ public class AmenityBookingEntity {
     @PrimaryKeyColumn(name = COLUMN_AMENITY_ID, ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     @CassandraType(type = CassandraType.Name.TEXT)
     private String amenityId;
+
+    @Column(COLUMN_AMENITY_NAME)
+    @CassandraType(type = CassandraType.Name.TEXT)
+    private String amenityName;
+
+    @Indexed
+    @Column(COLUMN_CANCELED)
+    @CassandraType(type = CassandraType.Name.BOOLEAN)
+    private Boolean canceled;
 }
 

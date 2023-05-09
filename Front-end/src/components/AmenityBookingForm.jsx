@@ -37,17 +37,15 @@ function AmenityBookingForm() {
     const [submitted, setSubmitted] = useState(false);
     const [timeslotsKey, setTimeslotsKey] = useState(0);
     const [selectedSlots, setSelectedSlots] = useState([]);
-    const [amenities, setAmenities] = useState([]);
+
     const user = JSON.parse(localStorage.getItem("user"));
+    const [amenityName, setAmenityName] = useState('');
 
 
     useEffect(() => {
-        // Make API request to retrieve user data
-        backend.get('amenities')
+        backend.get(`amenities/${amenityId}`)
             .then(response => {
-                // Update state with user data
-                setAmenities(response.data);
-                console.log("Amenity Names:", response.data);
+                setAmenityName(response.data.name);
             })
             .catch(error => {
                 console.error(error);
@@ -78,7 +76,8 @@ function AmenityBookingForm() {
             userEmail: user.email,
             bookingDate: bookingDate,
             bookingTime: selectedSlots,
-            amenityId: amenityId
+            amenityId: amenityId,
+            amenityName: amenityName
         }).then((response) => {
             console.log("booking successful: " + response);
             navigate(`/admin/amenities/booking-confirmation/${response.data.bookingId}`, {replace: true});
