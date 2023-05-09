@@ -8,7 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import * as React from "react";
 import {styled} from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
-import {Menu, MenuItem} from "@mui/material";
+import {Button, Menu, MenuItem} from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {ExitToApp} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
@@ -48,9 +48,10 @@ export default function Navbar(props: NavbarProps) {
         localStorage.clear();
         navigate("/login", {replace: true});
     }
-    const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-        navigate("/admin/profile", {replace: true});
+    const handleProfileClick = () => {
+        const role = JSON.parse(localStorage.getItem('user')).role
+        navigate(`/${role}/profile`, {replace: true});
+        handleProfileClose();
     };
     const handleProfileClose = () => {
         setAnchorEl(null);
@@ -86,15 +87,34 @@ export default function Navbar(props: NavbarProps) {
                     AmenityHub
                 </Typography>
 
-                {/* <Typography color="inherit" variant="subtitle1" sx={{mr: 0.5}}>
-                    welcome Anjan!
-                </Typography> */}
+                <Typography sx={{mr: 4}} color="inherit" variant="subtitle1" sx={{mr: 0.5}}>
+                    Welcome {JSON.parse(localStorage.getItem('user')).firstName}!
+                </Typography>
 
 
                 <div>
-                    <IconButton color="inherit" onClick={handleProfileClick}>
+                    <IconButton color="inherit" onClick={(event) => setAnchorEl(event.currentTarget)}>
                         <PersonIcon/>
                     </IconButton>
+                    {/*<Button color="inherit" onClick={handleProfileClick} variant="outlined" startIcon={<PersonIcon />}>*/}
+                    {/*    <Typography >Profile</Typography>*/}
+                    {/*</Button>*/}
+                    {/*<Button sx={{ml:2}} color="inherit" onClick={handleSignOut} variant="outlined" startIcon={<ExitToApp />}>*/}
+                    {/*    <Typography >Sign out</Typography>*/}
+                    {/*</Button>*/}
+                    {/*<Button onClick={handleProfileClose}>*/}
+                    {/*    <ListItemIcon>*/}
+                    {/*        <PersonIcon/>*/}
+                    {/*    </ListItemIcon>*/}
+                    {/*    <Typography variant="inherit">Profile</Typography>*/}
+                    {/*</Button>*/}
+
+                    {/*<IconButton onClick={handleSignOut}>*/}
+                    {/*    <ListItemIcon>*/}
+                    {/*        <ExitToApp/>*/}
+                    {/*    </ListItemIcon>*/}
+                    {/*    <Typography variant="inherit">Sign Out</Typography>*/}
+                    {/*</IconButton>*/}
                     <Menu
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
@@ -108,7 +128,7 @@ export default function Navbar(props: NavbarProps) {
                             horizontal: 'right',
                         }}
                     >
-                        <MenuItem onClick={handleProfileClose}>
+                        <MenuItem onClick={handleProfileClick}>
                             <ListItemIcon>
                                 <PersonIcon/>
                             </ListItemIcon>

@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CssBaseline} from "@mui/material";
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import LandingPage from "./components/LandingPage";
@@ -19,66 +19,93 @@ import BookingConfirmationCard from "./components/BookingConfirmationCard";
 import GuestAmenityBookingForm from "./pages/Guest/GuestAmenityBookingForm";
 import AdminBookingTable from "./pages/Admin/BookingTable";
 import PeopleTable from "./components/PeopleTable/PeopleTable";
+import GuestServiceRequestTable from "./pages/Guest/GuestServiceRequestTable";
 
+const RedirectAuth = ({auth, path, element}) => {
+    return auth || localStorage.getItem("user") != null? (
+        element
+    ) : (
+        <Navigate to="/login" replace state={{from: path}}/>
+    );
+}
 
 function App() {
     const [auth, setAuth] = useState(false);
     const location = useLocation();
 
-    return (
-        <>
+    return (<>
             <CssBaseline/>
             <Routes>
-                <Route path="/" element={<LandingPage setAuth={setAuth}/>}/>
+                <Route path="/" element={<LandingPage/>}/>
                 <Route path="/login" element={<Login setAuth={setAuth}/>}/>
-                <Route path="/signup" element={<Signup setAuth={setAuth}/>}/>
+                <Route path="/signup" element={<Signup/>}/>
+                {/*<Route path="/unauthorized" element={<Unauthorized />}/>*/}
 
-                <Route path="/admin" element={<Admin component={<Carousals/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/bookings" element={<Admin component={<AdminBookingTable/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/servicerequests"
-                       element={<Admin component={<ServiceRequestTable/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/amenities" element={<Admin component={<Amenities/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/amenities/:amenityId"
-                       element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/amenities/booking-confirmation/:booking_id"
-                       element={<Admin component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
-                <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/>
+                {
+                    localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role === 'admin' && (
+                        <>
+                            <Route path="/admin" element={<RedirectAuth auth={auth} element={<Admin component={<Carousals/>}/>}/>}/>
+                            <Route path="/admin" element={<RedirectAuth auth={auth} element={<Admin component={<Carousals/>}/>}/>}/>
+                            <Route path="/admin/people" element={<RedirectAuth auth={auth} element={<Admin component={<PeopleTable/>}/>}/>}/>
+                            <Route path="/admin/bookings" element={<RedirectAuth auth={auth} element={<Admin component={<BookingTable/>}/>}/>}/>
+                            <Route path="/admin/servicerequests" element={<RedirectAuth auth={auth} element={<Admin component={<ServiceRequestTable/>}/>}/>}/>
+                            <Route path="/admin/amenities" element={<RedirectAuth auth={auth} element={<Admin component={<Amenities/>}/>}/>}/>
+                            <Route path="/admin/amenities/:amenityId" element={<RedirectAuth auth={auth} element={<Admin component={<AmenityBookingForm/>}/>}/>}/>
+                            <Route path="/admin/amenities/booking-confirmation/:booking_id" element={<RedirectAuth auth={auth} element={<Admin component={<BookingConfirmationCard/>}/>}/>}/>
+                            <Route path="/admin/profile" element={<RedirectAuth auth={auth} element={<Admin component={<Profile/>}/>}/>}/>
+                        </>
+                    )
+                }
 
-                <Route path="/staff" element={<Staff component={<Carousals/>} setAuth={setAuth}/>}/>
+
+                {
+                    localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role === 'guest' && (
+                        <>
+                            <Route path="/guest" element={<RedirectAuth auth={auth} element={<Guest component={<Carousals/>}/>}/>}/>
+                            <Route path="/guest/servicerequests" element={<RedirectAuth auth={auth} element={<Guest component={<GuestServiceRequest/>}/>}/>}/>
+                            <Route path="/guest/amenities" element={<RedirectAuth auth={auth} element={<Guest component={<Amenities/>}/>}/>}/>
+                            <Route path="/guest/amenities/:amenityId" element={<RedirectAuth auth={auth} element={<Guest component={<AmenityBookingForm/>}/>}/>}/>
+                            <Route path="/guest/profile" element={<RedirectAuth auth={auth} element={<Guest component={<Profile/>}/>}/>}/>
+                            <Route path="/guest/amenities/booking-confirmation/:booking_id" element={<RedirectAuth auth={auth} element={<Guest component={<BookingConfirmationCard/>}/>}/>}/>
+                            <Route path="/guest/bookings" element={<RedirectAuth auth={auth} element={<Guest component={<BookingTable/>}/>}/>}/>
+                        </>
+                    )
+                }
+
+                {
+                    localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).role === 'staff' && (
+                        <>
+                            <Route path="/staff" element={<Staff component={<Carousals/>} setAuth={setAuth}/>}/>
+                            <Route path="/staff/servicerequests" element={<Staff component={<StaffServiceRequestTable/>} setAuth={setAuth}/>}/>
+                            <Route path="/staff/profile" element={<RedirectAuth auth={auth} element={<Staff component={<Profile/>}/>}/>}/>
+
+                        </>
+                    )
+                }
+
+
                 {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
                 {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>} setAuth={setAuth}/>}/> */}
-                <Route path="/staff/servicerequests"
-                       element={<Staff component={<StaffServiceRequestTable/>} setAuth={setAuth}/>}/>
-                {/* <Route path="/admin/amenities" element={<Admin component={<Amenities/>} setAuth={setAuth}/>}/> */}
+
+                {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>}/>}/> */}
+                {/* <Route path="/admin/bookings" element={<Admin component={<BookingTable/>}/>}/> */}
+                {/* <Route path="/admin/amenities" element={<Admin component={<Amenities/>}/>}/> */}
                 {/* <Route path="/admin/amenities/:amenityId" */}
                 {/* element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/> */}
                 {/* <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/> */}
 
 
-                <Route path="/guest" element={<Guest component={<Carousals/>} setAuth={setAuth}/>}/>
-                {/* <Route path="/admin/people" element={<Admin component={<PeopleTable/>} setAuth={setAuth}/>}/> */}
-                <Route path="/guest/bookings" element={<Guest component={<BookingTable/>} setAuth={setAuth}/>}/>
-                <Route path="/guest/servicerequests"
-                       element={<Guest component={<GuestServiceRequest/>} setAuth={setAuth}/>}/>
-                <Route path="/guest/amenities" element={<Guest component={<Amenities/>} setAuth={setAuth}/>}/>
-
-                <Route path="/guest/amenities/:amenityId"
-                       element={<Guest component={<AmenityBookingForm/>} setAuth={setAuth}/>}/>
-                <Route path="/guest/amenities/booking-confirmation/:booking_id"
-                       element={<Guest component={<BookingConfirmationCard/>} setAuth={setAuth}/>}/>
-
 
                 {/* <Route path="/admin/amenities/:amenityId" */}
-                {/* element={<Admin component={<AmenityBookingForm/>} setAuth={setAuth}/>}/> */}
-                {/* <Route path="/admin/profile" element={<Admin component={<Profile/>} setAuth={setAuth}/>}/> */}
+                {/* element={<Admin component={<AmenityBookingForm/>}/>}/> */}
+                {/* <Route path="/admin/profile" element={<Admin component={<Profile/>}/>}/> */}
 
 
                 {/*<Route*/}
                 {/*    path="/"*/}
                 {/*    element={*/}
                 {/*        auth ? (*/}
-                {/*            // <Home setAuth={setAuth} />*/}
+                {/*            // <Home />*/}
                 {/*            <Navigate to="/dashboard" state={{from: location}} replace/>*/}
                 {/*        ) : (*/}
                 {/*            // <Navigate to="/login" state={{ from: location }} replace />*/}
@@ -88,8 +115,7 @@ function App() {
                 {/*/>*/}
 
             </Routes>
-        </>
-    );
+        </>);
 }
 
 export default App;

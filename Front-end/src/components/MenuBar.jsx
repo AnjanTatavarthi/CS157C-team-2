@@ -9,6 +9,7 @@ import MuiDrawer from "@mui/material/Drawer";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import {useLocation} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -46,6 +47,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 // }
 
 export default function MenuBar(props) {
+    const location = useLocation();
     return (
         <Drawer variant="permanent" open={props.open}>
             <Toolbar
@@ -63,15 +65,15 @@ export default function MenuBar(props) {
             <Divider/>
             <List component="nav">
                 <List component="nav">
-                    {props.primaryMenuItems.map(({label, icon, onClick}) => (
-                        <ListItemButton key={label} onClick={onClick}>
+                    {props.primaryMenuItems.map(({label, icon, onClick, path}) => (
+                        <ListItemButton key={label} onClick={onClick} selected={location.pathname === path}>
                             <ListItemIcon>{icon}</ListItemIcon>
                             <ListItemText primary={label}/>
                         </ListItemButton>
                     ))}
                     <Divider sx={{my: 1}}/>
                     {props.secondaryMenuItems.map((item) => (
-                        <ListItemButton key={item.label}>
+                        <ListItemButton key={item.label} selected={location.pathname === item.path}>
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.label}/>
                         </ListItemButton>

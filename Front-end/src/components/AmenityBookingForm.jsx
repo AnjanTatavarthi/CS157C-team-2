@@ -82,7 +82,7 @@ function AmenityBookingForm() {
             amenityName: amenityName
         }).then((response) => {
             console.log("booking successful: " + response);
-            navigate(`/admin/amenities/booking-confirmation/${response.data.bookingId}`, {replace: true});
+            navigate(`/${user.role}/amenities/booking-confirmation/${response.data.bookingId}`, {replace: true});
         }).catch(() => {
         });
     };

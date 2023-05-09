@@ -29,35 +29,40 @@ function Admin(props) {
             icon: <DashboardIcon/>,
             onClick: () => {
                 navigate("/admin", {replace: true});
-            }
+            },
+            path: '/admin'
         },
         {
             label: 'Bookings',
             icon: <ShoppingCartIcon/>,
             onClick: () => {
                 navigate("/admin/bookings", {replace: true});
-            }
+            },
+            path: '/admin/bookings'
         },
         {
             label: 'Amenities',
             icon: <ShoppingCartIcon/>,
             onClick: () => {
                 navigate("/admin/amenities", {replace: true});
-            }
+            },
+            path: '/admin/amenities'
         },
         {
             label: 'Service Requests',
             icon: <PeopleIcon/>,
             onClick: () => {
                 navigate("/admin/servicerequests", {replace: true});
-            }
+            },
+            path: '/admin/servicerequests'
         },
         {
             label: 'People',
             icon: <PeopleIcon/>,
             onClick: () => {
                 navigate("/admin/people", {replace: true});
-            }
+            },
+            path: '/admin/people'
         }
     ];
 
@@ -67,6 +72,7 @@ function Admin(props) {
             icon: <AssignmentIcon/>,
             onClick: () => {
             },
+            path: '/admin/rating'
         },
     ];
 
