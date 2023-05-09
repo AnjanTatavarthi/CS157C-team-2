@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -40,6 +41,54 @@ public class UserRestController {
     public Stream<User> findAll(HttpServletRequest req) {
         return repo.findAll().stream()
                 .map(UserUtils::mapAsUser);
+    }
+
+
+    @GetMapping("/staff")
+    public Stream<User> findAllStaff(HttpServletRequest req) {
+        return repo.findAll().stream()
+                .map(userEntity -> {
+                    String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
+                    String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
+                    String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
+                    String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
+                    LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
+                    String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
+                })
+                .filter(userEntity -> userEntity.getRole().equals("staff"));
+    }
+
+
+    @GetMapping("/guest")
+    public Stream<User> findAllGuest(HttpServletRequest req) {
+        return repo.findAll().stream()
+                .map(userEntity -> {
+                    String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
+                    String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
+                    String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
+                    String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
+                    LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
+                    String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
+                })
+                .filter(userEntity -> userEntity.getRole().equals("guest"));
+    }
+
+
+    @GetMapping("/admin")
+    public Stream<User> findAllAdmin(HttpServletRequest req) {
+        return repo.findAll().stream()
+                .map(userEntity -> {
+                    String firstName = userEntity.getFirstName() != null ? userEntity.getFirstName() : "Unknown";
+                    String lastName = userEntity.getLastName() != null ? userEntity.getLastName() : "Unknown";
+                    String email = userEntity.getEmail() != null ? userEntity.getEmail() : "Unknown";
+                    String password = userEntity.getPassword() != null ? userEntity.getPassword() : "Unknown";
+                    LocalDate dateOfBirth = userEntity.getDateOfBirth() != null ? userEntity.getDateOfBirth() : null;
+                    String role = userEntity.getRole() != null ? userEntity.getRole() : "Unknown";
+                    return new User(firstName, lastName, dateOfBirth, password, email, role);
+                })
+                .filter(userEntity -> userEntity.getRole().equals("admin"));
     }
 
     @GetMapping("/{user_name}")
